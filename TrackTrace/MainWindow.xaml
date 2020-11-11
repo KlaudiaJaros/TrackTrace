@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace"
         mc:Ignorable="d"
-         Title="Track and Trace" Height="440" Width="900" FontSize="22">
+         Title="Track and Trace" Height="440" Width="900" FontSize="22" Left="200" Top="200">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

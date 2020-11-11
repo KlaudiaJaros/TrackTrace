@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TrackTrace.Presentation;
 
 namespace TrackTrace
 {
@@ -27,17 +28,23 @@ namespace TrackTrace
 
         private void AddUserBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            AddUserWindow window = new AddUserWindow();
+            window.Show();
+            this.Close();
         }
 
         private void AddLocationBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            AddLocationWindow window = new AddLocationWindow();
+            window.Show();
+            this.Close();
         }
 
         private void RecordContactBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            RecordContactWindow window = new RecordContactWindow();
+            window.Show();
+            this.Close();
         }
 
         private void RecordVisitBtn_Click(object sender, RoutedEventArgs e)
