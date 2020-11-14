@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TrackTrace.BusinessObject;
+using TrackTrace.Data;
 
 namespace TrackTrace.Presentation
 {
@@ -191,6 +193,34 @@ namespace TrackTrace.Presentation
         private void ContactNameSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             ContactIDSearchBtn.IsChecked = false;
+        }
+
+        private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
+        {
+            List<User> users = TextConnectorFacade.GetUsers();
+            usersList.ItemsSource = users;
+        }
+
+        private void ShowAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
+            {
+                warningText.Visibility = Visibility.Visible;
+            }
+            else if (recordContactsBtn.IsChecked == true && recordVisitsBtn.IsChecked == false)
+            {
+                // show users:
+                warningText.Visibility = Visibility.Hidden;
+                List<User> users = TextConnectorFacade.GetUsers();
+                resultsList.ItemsSource = users;
+            }
+            else if (recordVisitsBtn.IsChecked == true && recordContactsBtn.IsChecked == false)
+            {
+                // show locations:
+                warningText.Visibility = Visibility.Hidden;
+                List<Location> locations = TextConnectorFacade.GetLocations();
+                resultsList.ItemsSource = locations;           
+            }
         }
     }
 }

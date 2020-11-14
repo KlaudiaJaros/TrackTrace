@@ -26,5 +26,16 @@ namespace TrackTrace.Data
         {
             eventSystem.SaveEvent(e);
         }
+
+        public static List<User> GetUsers()
+        {
+            List<User> users = userSystem.GetUsers();
+            return users;
+        }
+        public static List<Location> GetLocations()
+        {
+            List<Location> locations = locationSystem.GetLocations();
+            return locations;
+        }
     }
 }

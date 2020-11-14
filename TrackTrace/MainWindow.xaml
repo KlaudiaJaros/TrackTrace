@@ -31,8 +31,7 @@
 
         <Button x:Name="AddUserBtn" Content="Add a new user"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="40,15" Click="AddUserBtn_Click" />
         <Button x:Name="AddLocationBtn" Content="Add a location"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,15" Click="AddLocationBtn_Click" />
-        <Button x:Name="RecordContactBtn" Content="Record contact"  Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Margin="40,15" Click="RecordContactBtn_Click" />
-        <Button x:Name="RecordVisitBtn" Content="Record visit"  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,15" Click="RecordVisitBtn_Click" />
+        <Button x:Name="RecordEventsBtn" Content="Record events"  Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Margin="40,15" Click="RecordEventsBtn_Click" />
         <Button x:Name="SearchContactsBtn" Content="By contacts"  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Margin="40,15" Click="SearchContactsBtn_Click" />
         <Button x:Name="SearchLocationBtn" Content="By location"  Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,15" Click="SearchLocationBtn_Click" />
     </Grid>

@@ -40,16 +40,11 @@ namespace TrackTrace
             this.Close();
         }
 
-        private void RecordContactBtn_Click(object sender, RoutedEventArgs e)
+        private void RecordEventsBtn_Click(object sender, RoutedEventArgs e)
         {
             RecordEventsWindow window = new RecordEventsWindow();
             window.Show();
             this.Close();
-        }
-
-        private void RecordVisitBtn_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void SearchContactsBtn_Click(object sender, RoutedEventArgs e)

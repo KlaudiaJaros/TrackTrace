@@ -50,5 +50,9 @@ namespace TrackTrace.BusinessObject
         {
             return this.id + "," + this.firstName + "," + this.lastName + "," + this.phoneNo;
         }
+        public override string ToString()
+        {
+            return "User: "+ this.id +", " + this.firstName +", " + lastName;
+        }
     }
 }

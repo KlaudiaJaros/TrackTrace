@@ -47,7 +47,7 @@ namespace TrackTrace.Data
         {
             List<Location> locations = new List<Location>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            Location location = new Location();
+            
 
             if (File.Exists(path))
             {
@@ -55,6 +55,7 @@ namespace TrackTrace.Data
 
                 foreach (string line in lines)
                 {
+                    Location location = new Location();
                     string[] separated = line.Split(',');
                     int id = 0;
                     Int32.TryParse(separated[0], out id);

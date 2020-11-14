@@ -47,14 +47,14 @@ namespace TrackTrace.Data
         {
             List<User> users = new List<User>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            User u = new User();
-
+            
             if (File.Exists(path))
             {
                 string[] lines = File.ReadAllLines(path);
 
                 foreach (string line in lines)
                 {
+                    User u = new User();
                     string[] separated = line.Split(',');
                     int id = 0;
                     Int32.TryParse(separated[0], out id);
@@ -68,7 +68,5 @@ namespace TrackTrace.Data
             }
             return users;
         }
-
-
     }
 }
