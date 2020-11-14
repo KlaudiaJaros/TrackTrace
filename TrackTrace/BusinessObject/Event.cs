@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrackTrace.BusinessObject
 {
-    class Event
+    public class Event
     {
         private int id;
         private DateTime dateTime;
