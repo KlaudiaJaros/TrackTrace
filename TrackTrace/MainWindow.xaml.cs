@@ -42,7 +42,7 @@ namespace TrackTrace
 
         private void RecordContactBtn_Click(object sender, RoutedEventArgs e)
         {
-            RecordContactWindow window = new RecordContactWindow();
+            RecordEventsWindow window = new RecordEventsWindow();
             window.Show();
             this.Close();
         }

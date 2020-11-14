@@ -14,7 +14,6 @@ namespace TrackTrace.BusinessObject
         private string phoneNo;
 
         public List<Event> Events { get; set; } = new List<Event>();
-
         public int GetId()
         {
             return id;

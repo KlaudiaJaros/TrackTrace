@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrackTrace.BusinessObject
 {
-    class Location
+    public class Location
     {
         private int id;
         public string Name { get; set; }

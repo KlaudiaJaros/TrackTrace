@@ -37,14 +37,12 @@ namespace TrackTrace.Presentation
         {
             if(ValidateInput())
             {
-                //  TODO: save user
                 User newUser = new User();
                 newUser.SetFirstName(firstNameBox.Text);
                 newUser.SetLastName(lastNameBox.Text);
                 newUser.SetPhoneNo(phoneNoBox.Text);
-
-
                 TextConnectorFacade.SaveUser(newUser);
+                
                 MessageBox.Show("User(s) successfully added.");
                 MainWindow window = new MainWindow();
                 window.Show();
@@ -56,7 +54,12 @@ namespace TrackTrace.Presentation
         {
             if(ValidateInput())
             {
-                //  TODO: save user
+                User newUser = new User();
+                newUser.SetFirstName(firstNameBox.Text);
+                newUser.SetLastName(lastNameBox.Text);
+                newUser.SetPhoneNo(phoneNoBox.Text);
+                TextConnectorFacade.SaveUser(newUser);
+
                 firstNameBox.Text = "";
                 lastNameBox.Text = "";
                 phoneNoBox.Text = "";
@@ -64,7 +67,6 @@ namespace TrackTrace.Presentation
 
         }
 
-        // TODO: add extra cases: max input
         /// <summary>
         /// A method that takes all user's input from the form and checks if it is valid.
         /// </summary>
@@ -105,6 +107,7 @@ namespace TrackTrace.Presentation
             return isValid;
         }
 
+        // Help tips for the user:
         private void fnImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();

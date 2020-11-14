@@ -17,5 +17,14 @@ namespace TrackTrace.Data
         {
             userSystem.SaveUser(u);
         }
+
+        public static void SaveLocation(Location l)
+        {
+            locationSystem.SaveLocation(l);
+        }
+        public static void SaveEvent(Event e)
+        {
+            eventSystem.SaveEvent(e);
+        }
     }
 }

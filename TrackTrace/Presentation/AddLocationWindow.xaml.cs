@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TrackTrace.BusinessObject;
+using TrackTrace.Data;
 
 namespace TrackTrace.Presentation
 {
@@ -35,7 +37,13 @@ namespace TrackTrace.Presentation
         {
             if(ValidateInput())
             {
-                // TODO: save location
+                Location loc = new Location();
+                loc.Name = locNameBox.Text;
+                loc.Address = locAddressBox.Text;
+                loc.PostCode = locPostCodeBox.Text;
+                loc.Town = locTownBox.Text;
+                TextConnectorFacade.SaveLocation(loc);
+
                 MessageBox.Show("Location(s) successfully added.");
                 MainWindow window = new MainWindow();
                 window.Show();
@@ -47,7 +55,13 @@ namespace TrackTrace.Presentation
         {
             if(ValidateInput())
             {
-                // TODO: save location
+                Location loc = new Location();
+                loc.Name = locNameBox.Text;
+                loc.Address = locAddressBox.Text;
+                loc.PostCode = locPostCodeBox.Text;
+                loc.Town = locTownBox.Text;
+                TextConnectorFacade.SaveLocation(loc);
+
                 locNameBox.Text = "";
                 locAddressBox.Text = "";
                 locPostCodeBox.Text = "";
@@ -70,10 +84,10 @@ namespace TrackTrace.Presentation
                 isValid = false;
                 MessageBox.Show("Please provide location's name. Max 70 characters.");
             }
-            if (locAddressBox.Text == "" || locAddressBox.Text.Length>35 || locAddress2Box.Text.Length>35)
+            if (locAddressBox.Text == "" || locAddressBox.Text.Length > 70 || locAddressBox.Text.Contains(","))
             {
                 isValid = false;
-                MessageBox.Show("Please provide location's address. Max 35 characters per line.");
+                MessageBox.Show("Please provide location's address. Max 70 characters.");
             }
             if (locPostCodeBox.Text == "" || !(locPostCodeBox.Text.Length >=6 && locPostCodeBox.Text.Length<=8))
             {
@@ -101,7 +115,7 @@ namespace TrackTrace.Presentation
         private void AddImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
-            tp.Content = "Location's address. Max 35 characters per line. Second line is optional.";
+            tp.Content = "Location's address. Max 70 characters, commas are not allowed.";
             AddImg.ToolTip = tp;
         }
 

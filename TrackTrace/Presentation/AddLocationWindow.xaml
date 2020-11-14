@@ -31,7 +31,6 @@
 
             <TextBox x:Name="locNameBox" Grid.Column="2" Grid.Row="1" Padding="5" Width="250"/>
             <TextBox x:Name="locAddressBox" Grid.Column="2" Grid.Row="2" Padding="5" Width="250"/>
-            <TextBox x:Name="locAddress2Box" Grid.Column="2" Grid.Row="3" Padding="5" Width="250"/>
             <TextBox x:Name="locPostCodeBox" Grid.Column="2" Grid.Row="4" Padding="5" Width="250"/>
             <TextBox x:Name="locTownBox" Grid.Column="2" Grid.Row="5" Padding="5" Width="250"/>
 
