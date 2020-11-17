@@ -23,9 +23,10 @@ namespace TrackTrace.BusinessObject
         {
             this.id = i;
         }
-        public void SetDateTime(DateTime d)
+        public void SetDateTime(DateTime? d)
         {
-            this.dateTime = d;
+            DateTime date = (DateTime)d;
+            this.dateTime = date;
         }
         public virtual string ToCSV()
         {

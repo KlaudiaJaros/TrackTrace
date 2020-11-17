@@ -12,7 +12,21 @@ namespace TrackTrace.Data
     {
         private const string fileName = "UsersData.csv"; 
         private static int userId;
+        private static UserDataSystem userDataSystem;
 
+        private UserDataSystem() { }
+
+        public static UserDataSystem UserDataInstance
+        {
+            get
+            {
+                if (userDataSystem == null)
+                {
+                    userDataSystem = new UserDataSystem();
+                }
+                return userDataSystem;
+            }
+        }
         private void UpdateId()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);

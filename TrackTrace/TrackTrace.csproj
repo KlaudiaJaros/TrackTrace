@@ -84,8 +84,10 @@
     <Compile Include="BusinessObject\User.cs" />
     <Compile Include="BusinessObject\Visit.cs" />
     <Compile Include="Data\EventDataSystem.cs" />
+    <Compile Include="Data\EventFactory.cs" />
+    <Compile Include="Data\IdGeneratorSingleton.cs" />
     <Compile Include="Data\LocationDataSystem.cs" />
-    <Compile Include="Data\TextConnectorFacade.cs" />
+    <Compile Include="Data\DataFacade.cs" />
     <Compile Include="Data\UserDataSystem.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

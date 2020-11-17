@@ -7,12 +7,13 @@ using TrackTrace.BusinessObject;
 
 namespace TrackTrace.Data
 {
-    public static class TextConnectorFacade
+    public static class DataFacade
     {
-        private static UserDataSystem userSystem = new UserDataSystem();
-        private static LocationDataSystem locationSystem = new LocationDataSystem();
-        private static EventDataSystem eventSystem= new EventDataSystem();
+        private static UserDataSystem userSystem = UserDataSystem.UserDataInstance;
+        private static LocationDataSystem locationSystem = LocationDataSystem.LocationDataInstance;
+        private static EventDataSystem eventSystem= EventDataSystem.EventDataInstance;
 
+       
         public static void SaveUser(User u)
         {
             userSystem.SaveUser(u);

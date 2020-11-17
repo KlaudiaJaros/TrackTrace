@@ -42,7 +42,7 @@ namespace TrackTrace.Presentation
                 loc.Address = locAddressBox.Text;
                 loc.PostCode = locPostCodeBox.Text;
                 loc.Town = locTownBox.Text;
-                TextConnectorFacade.SaveLocation(loc);
+                DataFacade.SaveLocation(loc);
 
                 MessageBox.Show("Location(s) successfully added.");
                 MainWindow window = new MainWindow();
@@ -60,7 +60,7 @@ namespace TrackTrace.Presentation
                 loc.Address = locAddressBox.Text;
                 loc.PostCode = locPostCodeBox.Text;
                 loc.Town = locTownBox.Text;
-                TextConnectorFacade.SaveLocation(loc);
+                DataFacade.SaveLocation(loc);
 
                 locNameBox.Text = "";
                 locAddressBox.Text = "";

@@ -21,6 +21,10 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class RecordEventsWindow : Window
     {
+        // to store loaded data for the purpose of this window:
+        private List<User> users = new List<User>();
+        private List<Location> locations = new List<Location>();
+
         public RecordEventsWindow()
         {
             InitializeComponent();
@@ -40,9 +44,308 @@ namespace TrackTrace.Presentation
             locationContacts.Content = ContactIDSearchBtn;
             locationContacts.Content = LocNameSearchBtn;
             locationContacts.Content = PostCodeSearchBtn;
-            
+
+            // ensure the user can only select one result at a time:
+            usersList.SelectionMode = SelectionMode.Single;
+            resultsList.SelectionMode = SelectionMode.Single;
+
+            // set the date to now:
+            DateTimePickCtr.Value = DateTime.Now;
+
+            LoadData();
+        }
+        /// <summary>
+        /// Loads data for users and locations using DataFacade.
+        /// </summary>
+        private void LoadData()
+        {
+            locations = DataFacade.GetLocations();
+            users = DataFacade.GetUsers();
+        }
+        /// <summary>
+        /// Checks if the user provided all the information needed to save an Event. If not, it shows a MessageBox informing what's wrong.
+        /// </summary>
+        /// <returns>True, if the user input is valid, otherwise false.</returns>
+        private bool ValidateInput()
+        {
+            bool valid = true;
+            if (usersList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You have to select a user (from the list on the left) for who you would like to record an event.");
+                valid = false;
+            }                
+            if (resultsList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You have to select a user (if recording a contact) or a location (if recording a visit) from the list on the right.");
+                valid = false;
+            }            
+            if (DateTimePickCtr.Value == null)
+            {
+                MessageBox.Show("Please provide a time and a date for the event.");
+                valid = false;
+            }
+            return valid;    
+        }
+        /// <summary>
+        /// Event handler for 'Save Event and Exit' button. The function saves the Event and returns to MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: save event 
+            if (ValidateInput())
+            {
+                User selectedUser = (User)usersList.SelectedItem;
+                if (recordContactsBtn.IsChecked == true)
+                {
+                    User contactUser = (User)resultsList.SelectedItem;
+                    Contact saveContact = new Contact();
+                    saveContact.SetDateTime(DateTimePickCtr.Value);
+                    saveContact.User1 = selectedUser;
+                    saveContact.User2 = contactUser;
+
+                    DataFacade.SaveEvent(saveContact);
+                }
+                else if (recordVisitsBtn.IsChecked == true)
+                {
+                    Location visitLocation = (Location)resultsList.SelectedItem;
+                    Visit saveVisit = new Visit();
+                    saveVisit.SetDateTime(DateTimePickCtr.Value);
+                    saveVisit.User = selectedUser;
+                    saveVisit.Location = visitLocation;
+
+                    DataFacade.SaveEvent(saveVisit);
+                }
+                MessageBox.Show("Event for " + selectedUser.ToString() + " successfully saved.");
+
+                Button b = (Button)sender;
+                if (b.Name == "SaveExitBtn")
+                {
+                    MainWindow window = new MainWindow();
+                    window.Show();
+                    this.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// Event handler for 'Save Event and Add another' button. The function saves the event and clears the form so the user can add another event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddAnotherBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveExitBtn_Click(sender, e);
+            DateTimePickCtr.Value=DateTime.Now;
+            usersList.SelectedItem = null;
+            resultsList.SelectedItem = null;
+
         }
 
+        /// <summary>
+        /// Searches through the list of users and returns all that match the user input string.
+        /// </summary>
+        /// <param name="byID">Boolean to deduct if the method should search by user's id or not. If not, the default is to search by user's last name.</param>
+        /// <param name="userInput">User's input.</param>
+        /// <returns>A list off all users that match the provided string.</returns>
+        public List<User> SearchUsers(bool byID, string userInput)
+        {
+            string search = userInput;
+            List<User> results = new List<User>();
+
+            if (byID)
+            {
+                foreach (User u in users)
+                {
+                    int id = 0;
+                    Int32.TryParse(search, out id);
+                    if (u.GetId() == id)
+                    {
+                        results.Add(u);
+                    }
+                }
+            }
+            else 
+            {
+                foreach (User u in users)
+                {
+                    if (u.GetLastName().Equals(search))
+                    {
+                        results.Add(u);
+                    }
+                }
+            }
+            return results;
+        }
+        /// <summary>
+        /// Searched through the list of locations and returns all that match the user input string.
+        /// </summary>
+        /// <param name="byPostCode">Boolean to deduct if the method should search by locations's post-code or not. If not, the default is to search by locations's name.</param>
+        /// <param name="userInput"></param>
+        /// <returns>A list off all locations that match the provided string.</returns>
+        public List<Location> SearchLocations(bool byPostCode, string userInput)
+        {
+            List<Location> results = new List<Location>();
+
+            if (byPostCode)
+            {
+                foreach(Location l in locations)
+                {
+                    if (l.PostCode.Equals(userInput))
+                    {
+                        results.Add(l);
+                    }
+                }
+            }
+            else
+            {
+                foreach(Location l in locations)
+                {
+                    if (l.Name.Equals(userInput))
+                    {
+                        results.Add(l);
+                    }
+                }
+            }
+            return results;
+        }
+        /// <summary>
+        /// Closes the current window and opens the AddUser Window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddUserWindow window = new AddUserWindow();
+            window.Show();
+            this.Close();
+        }
+
+        /// <summary>
+        /// Closes the current window and opens the AddLocation Window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddLocBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddLocationWindow window = new AddLocationWindow();
+            window.Show();
+            this.Close();
+        }
+
+        /// <summary>
+        /// Search button event handler for the first listbox. The user can search for users.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserLNSearchBtn.IsChecked==false && UserIDSearchBtn.IsChecked == false)
+            {
+                MessageBox.Show("Please select if you are searching by User's last name or ID.");
+            }
+            else if (UserLNSearchBtn.IsChecked==true && UserIDSearchBtn.IsChecked==false)
+            {
+                usersList.ItemsSource= SearchUsers(false, userInput.Text);
+            }
+            else if(UserIDSearchBtn.IsChecked==true && UserLNSearchBtn.IsChecked == false)
+            {
+                usersList.ItemsSource=SearchUsers(true, userInput.Text);
+            }
+        }
+        /// <summary>
+        /// Search button event handler for the second listbox. The user can search for contacts or locations.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchVisitContactBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
+            {
+                warningText.Visibility = Visibility.Visible;
+            }
+            else if (recordContactsBtn.IsChecked == true && recordVisitsBtn.IsChecked == false)
+            {
+                if (ContactIDSearchBtn.IsChecked == true)
+                    resultsList.ItemsSource = SearchUsers(true, userInput2.Text);
+                else if (ContactNameSearchBtn.IsChecked == true)
+                    resultsList.ItemsSource = SearchUsers(false, userInput2.Text);
+
+                warningText.Visibility = Visibility.Hidden;
+            }
+            else if (recordVisitsBtn.IsChecked == true && recordContactsBtn.IsChecked == false)
+            {
+                if (PostCodeSearchBtn.IsChecked == true)
+                    resultsList.ItemsSource = SearchLocations(true, userInput2.Text);
+                else if (LocNameSearchBtn.IsChecked == true)
+                    resultsList.ItemsSource = SearchLocations(false, userInput2.Text);
+
+                warningText.Visibility = Visibility.Hidden;
+            }
+
+        }
+        /// <summary>
+        /// Displays all users in the first listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
+        {
+            usersList.ItemsSource = users;
+        }
+
+        /// <summary>
+        /// Displays all locations or contacts in the second listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
+            {
+                warningText.Visibility = Visibility.Visible;
+            }
+            else if (recordContactsBtn.IsChecked == true && recordVisitsBtn.IsChecked == false)
+            {
+                // show users:
+                warningText.Visibility = Visibility.Hidden;
+                resultsList.ItemsSource = users;
+            }
+            else if (recordVisitsBtn.IsChecked == true && recordContactsBtn.IsChecked == false)
+            {
+                // show locations:
+                warningText.Visibility = Visibility.Hidden;
+                resultsList.ItemsSource = locations;           
+            }
+        }
+        /// <summary>
+        /// Event handler for the question mark image. Displays a helpul tip for the user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HelpImg_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ToolTip tp = new ToolTip();
+            tp.Content = "Visit - occurs when a user checks in at a particular location. To record a visit, select 'Visits' and use the tool below to find a location which was visited by the user.\n" +
+                "Contact - occurs when two users have come into contact. To record a contact, select 'Contacts' and use the tool below to find a person the user has been in contact with.";
+            HelpImg.ToolTip = tp;
+        }
+        /// <summary>
+        /// Returns to MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow window = new MainWindow();
+            window.Show();
+            this.Close();
+        }
+
+        /* RadioButtons management below: 
+          - ensures that all of the RadioButtons work well
+          - depending on which button is on, different forms/textblocks appear
+         */
         private void recordVisitsBtn_Checked(object sender, RoutedEventArgs e)
         {
             recordContactsBtn.IsChecked = false;
@@ -55,6 +358,8 @@ namespace TrackTrace.Presentation
             visitText.Visibility = Visibility.Visible;
             LocNameSearchBtn.Visibility = Visibility.Visible;
             PostCodeSearchBtn.Visibility = Visibility.Visible;
+
+            resultsList.ItemsSource = null; // clear the results list
         }
 
         private void recordContactsBtn_Checked(object sender, RoutedEventArgs e)
@@ -70,101 +375,8 @@ namespace TrackTrace.Presentation
             ContactNameSearchBtn.Visibility = Visibility.Visible;
             contactText.Visibility = Visibility.Visible;
 
+            resultsList.ItemsSource = null; // clear the results list
         }
-
-        private void SearchVisitContactBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (recordContactsBtn.IsChecked==false && recordVisitsBtn.IsChecked == false)
-            {
-                warningText.Visibility = Visibility.Visible;
-            }
-            else if (recordContactsBtn.IsChecked==true && recordVisitsBtn.IsChecked==false)
-            {
-                SearchUsers();
-                warningText.Visibility = Visibility.Hidden;
-            }
-            else if(recordVisitsBtn.IsChecked==true && recordContactsBtn.IsChecked == false)
-            {
-                SearchLocations();
-                warningText.Visibility = Visibility.Hidden;
-            }
-                
-        }
-        public void SearchUsers()
-        {
-
-        }
-
-        public void SearchLocations()
-        {
-
-        }
-        public void RecordVisits()
-        {
-
-        }
-
-        public void RecordContacts()
-        {
-
-        }
-
-
-
-        private void HelpImg_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ToolTip tp = new ToolTip();
-            tp.Content = "Visit - occurs when a user checks in at a particular location. To record a visit, select 'Visits' and use the tool below to find a location which was visited by the user.\n" +
-                "Contact - occurs when two users have come into contact. To record a contact, select 'Contacts' and use the tool below to find a person the user has been in contact with.";
-            HelpImg.ToolTip = tp;
-        }
-
-        private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow window = new MainWindow();
-            window.Show();
-            this.Close();
-        }
-
-        private void SaveExitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: save event 
-
-            MainWindow window = new MainWindow();
-            window.Show();
-            this.Close();
-        }
-
-        private void AddUserBtn_Click(object sender, RoutedEventArgs e)
-        {
-            AddUserWindow window = new AddUserWindow();
-            window.Show();
-            this.Close();
-        }
-
-        private void AddLocBtn_Click(object sender, RoutedEventArgs e)
-        {
-            AddLocationWindow window = new AddLocationWindow();
-            window.Show();
-            this.Close();
-        }
-
-        private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (UserLNSearchBtn.IsChecked==false && UserIDSearchBtn.IsChecked == false)
-            {
-                MessageBox.Show("Please select if you are searching by User's last name or ID.");
-            }
-            else if (UserLNSearchBtn.IsChecked==true && UserIDSearchBtn.IsChecked==false)
-            {
-                // TODO: search by last name
-            }
-            else if(UserIDSearchBtn.IsChecked==true && UserLNSearchBtn.IsChecked == false)
-            {
-                // TODO: search by user id
-            }
-        }
-
         private void UserLNSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             UserIDSearchBtn.IsChecked = false;
@@ -193,34 +405,6 @@ namespace TrackTrace.Presentation
         private void ContactNameSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             ContactIDSearchBtn.IsChecked = false;
-        }
-
-        private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
-        {
-            List<User> users = TextConnectorFacade.GetUsers();
-            usersList.ItemsSource = users;
-        }
-
-        private void ShowAllBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
-            {
-                warningText.Visibility = Visibility.Visible;
-            }
-            else if (recordContactsBtn.IsChecked == true && recordVisitsBtn.IsChecked == false)
-            {
-                // show users:
-                warningText.Visibility = Visibility.Hidden;
-                List<User> users = TextConnectorFacade.GetUsers();
-                resultsList.ItemsSource = users;
-            }
-            else if (recordVisitsBtn.IsChecked == true && recordContactsBtn.IsChecked == false)
-            {
-                // show locations:
-                warningText.Visibility = Visibility.Hidden;
-                List<Location> locations = TextConnectorFacade.GetLocations();
-                resultsList.ItemsSource = locations;           
-            }
         }
     }
 }

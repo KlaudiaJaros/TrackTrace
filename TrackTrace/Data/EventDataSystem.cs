@@ -12,6 +12,20 @@ namespace TrackTrace.Data
     {
         private const string fileName = "EventData.csv";
         private static int eventId;
+        private static EventDataSystem eventDataSystem;
+
+        private EventDataSystem() { }
+        public static EventDataSystem EventDataInstance
+        {
+            get
+            {
+                if (eventDataSystem == null)
+                {
+                    eventDataSystem = new EventDataSystem();
+                }
+                return eventDataSystem;
+            }
+        }
 
         private void UpdateId()
         {
@@ -36,6 +50,7 @@ namespace TrackTrace.Data
         }
         public void SaveEvent(Event newEvent)
         {
+
             UpdateId();
             newEvent.SetId(eventId);
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
@@ -50,7 +65,7 @@ namespace TrackTrace.Data
                 eventCSV = "V," + newEvent.ToCSV();
             }
 
-            File.AppendAllText(path, newEvent.ToCSV() + '\n');
+            File.AppendAllText(path, eventCSV + '\n');
             eventId++;
         }
         public List<Event> GetEvents()

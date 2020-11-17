@@ -41,7 +41,7 @@ namespace TrackTrace.Presentation
                 newUser.SetFirstName(firstNameBox.Text);
                 newUser.SetLastName(lastNameBox.Text);
                 newUser.SetPhoneNo(phoneNoBox.Text);
-                TextConnectorFacade.SaveUser(newUser);
+                DataFacade.SaveUser(newUser);
                 
                 MessageBox.Show("User(s) successfully added.");
                 MainWindow window = new MainWindow();
@@ -58,7 +58,7 @@ namespace TrackTrace.Presentation
                 newUser.SetFirstName(firstNameBox.Text);
                 newUser.SetLastName(lastNameBox.Text);
                 newUser.SetPhoneNo(phoneNoBox.Text);
-                TextConnectorFacade.SaveUser(newUser);
+                DataFacade.SaveUser(newUser);
 
                 firstNameBox.Text = "";
                 lastNameBox.Text = "";

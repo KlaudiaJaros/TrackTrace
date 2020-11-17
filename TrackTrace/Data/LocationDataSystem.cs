@@ -12,6 +12,21 @@ namespace TrackTrace.Data
     {
         private const string fileName = "LocationData.csv";
         private static int locationId;
+        private static LocationDataSystem locationDataSystem;
+
+        private LocationDataSystem() { }
+
+        public static LocationDataSystem LocationDataInstance
+        {
+            get
+            {
+                if (locationDataSystem == null)
+                {
+                    locationDataSystem = new LocationDataSystem();
+                }
+                return locationDataSystem;
+            }
+        }
 
         private void UpdateId()
         {
