@@ -21,6 +21,7 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class AddLocationWindow : Window
     {
+        private MainWindow mainMenu;
         public AddLocationWindow()
         {
             InitializeComponent();
@@ -28,8 +29,8 @@ namespace TrackTrace.Presentation
 
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
-            window.Show();
+            mainMenu = new MainWindow();
+            mainMenu.Show();
             this.Close();
         }
 
@@ -45,8 +46,8 @@ namespace TrackTrace.Presentation
                 DataFacade.SaveLocation(loc);
 
                 MessageBox.Show("Location(s) successfully added.");
-                MainWindow window = new MainWindow();
-                window.Show();
+                mainMenu = new MainWindow();
+                mainMenu.Show();
                 this.Close();
             }
         }

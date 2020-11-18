@@ -101,6 +101,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\GenerateContactsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\GenerateVisitsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\RecordEventsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +120,12 @@
     </Compile>
     <Compile Include="Presentation\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\GenerateContactsWindow.xaml.cs">
+      <DependentUpon>GenerateContactsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\GenerateVisitsWindow.xaml.cs">
+      <DependentUpon>GenerateVisitsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\RecordEventsWindow.xaml.cs">
       <DependentUpon>RecordEventsWindow.xaml</DependentUpon>

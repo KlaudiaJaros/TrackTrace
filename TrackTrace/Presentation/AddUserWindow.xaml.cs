@@ -21,6 +21,7 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class AddUserWindow : Window
     {
+        private MainWindow mainMenu;
         public AddUserWindow()
         {
             InitializeComponent();
@@ -28,8 +29,8 @@ namespace TrackTrace.Presentation
 
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
-            window.Show();
+            mainMenu = new MainWindow();
+            mainMenu.Show();
             this.Close();
         }
 
@@ -44,8 +45,8 @@ namespace TrackTrace.Presentation
                 DataFacade.SaveUser(newUser);
                 
                 MessageBox.Show("User(s) successfully added.");
-                MainWindow window = new MainWindow();
-                window.Show();
+                mainMenu = new MainWindow();
+                mainMenu.Show();
                 this.Close();
             }
         }

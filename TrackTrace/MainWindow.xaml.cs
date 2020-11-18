@@ -21,6 +21,12 @@ namespace TrackTrace
     /// </summary>
     public partial class MainWindow : Window
     {
+        private AddUserWindow addUserWindow;
+        private AddLocationWindow addLocationWindow;
+        private RecordEventsWindow recordEventsWindow;
+        private GenerateVisitsWindow getVisitsWindow;
+        private GenerateContactsWindow getContactsWindow;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,33 +34,37 @@ namespace TrackTrace
 
         private void AddUserBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddUserWindow window = new AddUserWindow();
-            window.Show();
+            addUserWindow = new AddUserWindow();
+            addUserWindow.Show();
             this.Close();
         }
 
         private void AddLocationBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddLocationWindow window = new AddLocationWindow();
-            window.Show();
+            addLocationWindow = new AddLocationWindow();
+            addLocationWindow.Show();
             this.Close();
         }
 
         private void RecordEventsBtn_Click(object sender, RoutedEventArgs e)
         {
-            RecordEventsWindow window = new RecordEventsWindow();
-            window.Show();
+            recordEventsWindow = new RecordEventsWindow();
+            recordEventsWindow.Show();
             this.Close();
         }
 
         private void SearchContactsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            getContactsWindow = new GenerateContactsWindow();
+            getContactsWindow.Show();
+            this.Close();
         }
 
         private void SearchLocationBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            getVisitsWindow = new GenerateVisitsWindow();
+            getVisitsWindow.Show();
+            this.Close();
         }
     }
 }

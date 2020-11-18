@@ -1,0 +1,34 @@
+﻿<Window x:Class="TrackTrace.Presentation.GenerateVisitsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrackTrace.Presentation"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+        mc:Ignorable="d"
+        Title="Generate Visits" Height="696.966" Width="894.986" FontSize="20" Left="100" Top="100">
+    <Grid>
+
+        <TextBlock FontSize="22" HorizontalAlignment="Left" Margin="36,32,0,0" TextWrapping="Wrap" Text="Generate a list of users who visited a location between the choosen dates and times:" VerticalAlignment="Top"/>
+
+        <xctk:DateTimePicker Height="40" Margin="269,83,353,543" />
+        <TextBlock HorizontalAlignment="Left" Margin="36,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Select dates and times:"/>
+        <TextBlock HorizontalAlignment="Left" Margin="36,139,0,0" TextWrapping="Wrap" Text="Select a location:" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="36,189,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="522,186,0,0" TextWrapping="Wrap" Text="See all locations:" VerticalAlignment="Top"/>
+        <RadioButton Content="Location's name" HorizontalAlignment="Left" Margin="276,189,0,0" VerticalAlignment="Top" />
+        <RadioButton Content="Post Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,189,0,0" />
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="148,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="363,225,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Show All" HorizontalAlignment="Left" Margin="694,184,0,0" VerticalAlignment="Top" Width="101" />
+        <ListBox HorizontalAlignment="Left" Height="100" Margin="148,285,0,0" VerticalAlignment="Top" Width="601"/>
+        <TextBlock HorizontalAlignment="Left" Margin="36,418,0,-26" TextWrapping="Wrap" Text="Results:" VerticalAlignment="Top"/>
+        <ListBox HorizontalAlignment="Left" Height="180" Margin="148,418,0,-179" VerticalAlignment="Top" Width="461"/>
+        <Button Content="Clear Search" HorizontalAlignment="Left" Margin="276,615,0,-227" VerticalAlignment="Top" Width="133"/>
+        <Button Content="Export to a file" HorizontalAlignment="Left" Margin="497,615,0,-227" VerticalAlignment="Top" Width="153"/>
+        <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="117,615,0,-227" Click="ReturnBtn_Click"/>
+        <xctk:DateTimePicker Height="40" Margin="554,83,68,543" />
+        <Button Content="Show results" HorizontalAlignment="Left" VerticalAlignment="Top" Width="144" Margin="651,421,0,0"/>
+
+    </Grid>
+</Window>

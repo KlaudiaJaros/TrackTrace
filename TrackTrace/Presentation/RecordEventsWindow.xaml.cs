@@ -24,6 +24,9 @@ namespace TrackTrace.Presentation
         // to store loaded data for the purpose of this window:
         private List<User> users = new List<User>();
         private List<Location> locations = new List<Location>();
+        private MainWindow mainMenu;
+        private AddUserWindow addUserWindow;
+        private AddLocationWindow addLocationWindow;
 
         public RecordEventsWindow()
         {
@@ -122,8 +125,8 @@ namespace TrackTrace.Presentation
                 Button b = (Button)sender;
                 if (b.Name == "SaveExitBtn")
                 {
-                    MainWindow window = new MainWindow();
-                    window.Show();
+                    mainMenu = new MainWindow();
+                    mainMenu.Show();
                     this.Close();
                 }
             }
@@ -216,8 +219,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void AddUserBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddUserWindow window = new AddUserWindow();
-            window.Show();
+            addUserWindow = new AddUserWindow();
+            addUserWindow.Show();
             this.Close();
         }
 
@@ -228,8 +231,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void AddLocBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddLocationWindow window = new AddLocationWindow();
-            window.Show();
+            addLocationWindow = new AddLocationWindow();
+            addLocationWindow.Show();
             this.Close();
         }
 
@@ -337,8 +340,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
-            window.Show();
+            mainMenu = new MainWindow();
+            mainMenu.Show();
             this.Close();
         }
 
