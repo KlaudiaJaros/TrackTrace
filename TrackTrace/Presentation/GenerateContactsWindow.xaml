@@ -9,7 +9,7 @@
     <Grid>
         <TextBlock FontSize="22" HorizontalAlignment="Left" Margin="164,31,0,0" TextWrapping="Wrap" Text="Generate a list of contacts for a user:" VerticalAlignment="Top"/>
 
-        <xctk:DateTimePicker Height="40" Margin="177,88,354,543" />
+        <xctk:DateTimePicker Height="35" Margin="177,88,354,543" />
         <TextBlock HorizontalAlignment="Left" Margin="36,96,0,0" TextWrapping="Wrap" Text="Select date:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,139,0,0" TextWrapping="Wrap" Text="Select a user:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,189,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>

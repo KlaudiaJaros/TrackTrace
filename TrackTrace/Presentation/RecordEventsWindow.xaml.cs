@@ -172,7 +172,7 @@ namespace TrackTrace.Presentation
             {
                 foreach (User u in users)
                 {
-                    if (u.GetLastName().Equals(search))
+                    if (u.GetLastName().ToLower().Contains(search.ToLower()))
                     {
                         results.Add(u);
                     }
@@ -204,7 +204,7 @@ namespace TrackTrace.Presentation
             {
                 foreach(Location l in locations)
                 {
-                    if (l.Name.Equals(userInput))
+                    if (l.Name.ToLower().Contains(userInput.ToLower()))
                     {
                         results.Add(l);
                     }

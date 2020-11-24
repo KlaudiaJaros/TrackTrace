@@ -38,5 +38,10 @@ namespace TrackTrace.Data
             List<Location> locations = locationSystem.GetLocations();
             return locations;
         }
+        public static List<User> GetUsersByLocationAndDate(int locationId, DateTime fromDate, DateTime toDate)
+        {
+            List<User> users = eventSystem.GetUsersByLocationAndDate(locationId, fromDate, toDate);
+            return users;
+        }
     }
 }

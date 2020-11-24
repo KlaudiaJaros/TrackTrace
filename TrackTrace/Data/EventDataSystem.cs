@@ -68,6 +68,45 @@ namespace TrackTrace.Data
             File.AppendAllText(path, eventCSV + '\n');
             eventId++;
         }
+
+        public List<User> GetUsersByLocationAndDate(int locationId, DateTime fromDate, DateTime toDate)
+        {
+            List<User> users = new List<User>();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            if (File.Exists(path))
+            {
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    string[] separated = line.Split(',');
+                    char type = separated[0].ElementAt(0);
+                    if (type == 'V')
+                    {
+                        DateTime date = DateTime.Parse(separated[2]);
+                        int recordLocationId = 0;
+                        Int32.TryParse(separated[7], out recordLocationId);
+
+                        // check if the record is between the desired dates and it is the right location:
+                        if (date > fromDate && date < toDate && recordLocationId==locationId)
+                        {
+                            User user = new User();
+                            int userId = 0;
+                            Int32.TryParse(separated[3], out userId);
+                            user.SetId(userId);
+                            user.SetFirstName(separated[4]);
+                            user.SetLastName(separated[5]);
+                            user.SetPhoneNo(separated[6]);
+
+                            users.Add(user);
+                        }
+                    }
+                }
+
+            }
+
+            return users;
+        }
+
         public List<Event> GetEvents()
         {
             List<Event> events = new List<Event>();
