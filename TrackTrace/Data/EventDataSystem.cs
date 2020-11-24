@@ -107,6 +107,55 @@ namespace TrackTrace.Data
             return users;
         }
 
+        public List<User> GetUsersByContactAndDate(int userId, DateTime dateTime)
+        {
+            List<User> users = new List<User>();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            if (File.Exists(path))
+            {
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    string[] separated = line.Split(',');
+                    char type = separated[0].ElementAt(0);
+                    if (type == 'C')
+                    {
+                        DateTime date = DateTime.Parse(separated[2]);
+
+                        int user1Id = 0;
+                        Int32.TryParse(separated[3], out user1Id);
+                        int user2Id = 0;
+                        Int32.TryParse(separated[7], out user2Id);
+
+                        // check if the record is between the desired dates:
+                        if (date > dateTime && userId == user1Id )
+                        {
+                            User user2 = new User();
+                            user2.SetId(user2Id);
+                            user2.SetFirstName(separated[8]);
+                            user2.SetLastName(separated[9]);
+                            user2.SetPhoneNo(separated[10]);
+
+                            users.Add(user2);
+                        }
+                        else if (date > dateTime && userId == user2Id)
+                        {
+                            User user1 = new User();
+                            user1.SetId(user1Id);
+                            user1.SetFirstName(separated[4]);
+                            user1.SetLastName(separated[5]);
+                            user1.SetPhoneNo(separated[6]);
+
+                            users.Add(user1);
+                        }
+                    }
+                }
+
+            }
+
+            return users;
+        }
+
         public List<Event> GetEvents()
         {
             List<Event> events = new List<Event>();

@@ -7,23 +7,24 @@
         mc:Ignorable="d"
         Title="Generate Data" Height="696.966" Width="800" FontSize="20" Left="100" Top="100">
     <Grid>
-        <TextBlock FontSize="22" HorizontalAlignment="Left" Margin="164,31,0,0" TextWrapping="Wrap" Text="Generate a list of contacts for a user:" VerticalAlignment="Top"/>
+        <TextBlock FontSize="22" HorizontalAlignment="Left" Margin="79,31,0,0" TextWrapping="Wrap" Text="Generate a list of contacts for a user after a specified date and time:" VerticalAlignment="Top" Width="686"/>
 
-        <xctk:DateTimePicker Height="35" Margin="177,88,354,543" />
-        <TextBlock HorizontalAlignment="Left" Margin="36,96,0,0" TextWrapping="Wrap" Text="Select date:" VerticalAlignment="Top"/>
+        <xctk:DateTimePicker Name="datePicker" Margin="246,88,261,533" />
+        <TextBlock HorizontalAlignment="Left" Margin="36,96,0,0" TextWrapping="Wrap" Text="Select date and time:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,139,0,0" TextWrapping="Wrap" Text="Select a user:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,189,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="497,188,0,0" TextWrapping="Wrap" Text="See all users:" VerticalAlignment="Top"/>
-        <RadioButton Content="User's last name" HorizontalAlignment="Left" Margin="276,189,0,0" VerticalAlignment="Top" />
-        <RadioButton Content="User's ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,189,0,0"/>
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="148,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
-        <Button Content="Search" HorizontalAlignment="Left" Margin="363,225,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Show All" HorizontalAlignment="Left" Margin="643,184,0,0" VerticalAlignment="Top" Width="95" />
-        <ListBox HorizontalAlignment="Left" Height="100" Margin="148,285,0,0" VerticalAlignment="Top" Width="461"/>
+        <RadioButton x:Name="lastNameSearchBtn" Content="User's last name" HorizontalAlignment="Left" Margin="276,189,0,0" VerticalAlignment="Top" Checked="lastNameSearchBtn_Checked" />
+        <RadioButton x:Name="idSearchBtn" Content="User's ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,189,0,0" Checked="idSearchBtn_Checked"/>
+        <TextBox x:Name="userInput" HorizontalAlignment="Left" Height="31" Margin="148,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
+        <Button x:Name="SearchUsersBtn" Content="Search" HorizontalAlignment="Left" Margin="363,225,0,0" VerticalAlignment="Top" Width="75" Click="SearchUsersBtn_Click"/>
+        <Button x:Name="ShowAllUsersBtn" Content="Show All" HorizontalAlignment="Left" Margin="643,184,0,0" VerticalAlignment="Top" Width="95" Click="ShowAllUsersBtn_Click" />
+        <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="100" Margin="148,285,0,0" VerticalAlignment="Top" Width="461"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,418,0,0" TextWrapping="Wrap" Text="Results:" VerticalAlignment="Top"/>
-        <ListBox HorizontalAlignment="Left" Height="180" Margin="148,418,0,0" VerticalAlignment="Top" Width="461"/>
-        <Button Content="Clear Search" HorizontalAlignment="Left" Margin="276,615,0,0" VerticalAlignment="Top" Width="133"/>
-        <Button Content="Export to a file" HorizontalAlignment="Left" Margin="497,615,0,0" VerticalAlignment="Top" Width="153"/>
+        <ListBox x:Name="resultsList" HorizontalAlignment="Left" Height="180" Margin="148,418,0,0" VerticalAlignment="Top" Width="461"/>
+        <Button x:Name="ClearBtn" Content="Clear Search" HorizontalAlignment="Left" Margin="276,615,0,0" VerticalAlignment="Top" Width="133" Click="ClearBtn_Click"/>
+        <Button x:Name="ExportToFileBtn" Content="Export to a file" HorizontalAlignment="Left" Margin="497,615,0,0" VerticalAlignment="Top" Width="153" Click="ExportToFileBtn_Click"/>
         <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="117,615,0,0" Click="ReturnBtn_Click" />
+        <Button x:Name="ShowResultsBtn" Content="Show results" HorizontalAlignment="Left" Margin="643,418,0,0" VerticalAlignment="Top" Width="122" Click="ShowResultsBtn_Click"/>
     </Grid>
 </Window>

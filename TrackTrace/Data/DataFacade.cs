@@ -43,5 +43,10 @@ namespace TrackTrace.Data
             List<User> users = eventSystem.GetUsersByLocationAndDate(locationId, fromDate, toDate);
             return users;
         }
+        public static List<User> GetUsersByContactAndDate(int userId, DateTime dateTime)
+        {
+            List<User> users = eventSystem.GetUsersByContactAndDate(userId, dateTime);
+            return users;
+        }
     }
 }
