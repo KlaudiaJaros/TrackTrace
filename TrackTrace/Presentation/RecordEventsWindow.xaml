@@ -5,41 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace.Presentation" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Record Events" Height="879.66" Width="1307.225" FontSize="20" Left="100" Top="100">
+        Title="Record Events" Height="879.66" Width="1284.291" FontSize="19" Left="100" Top="100" Icon="TrackTrace.ico">
     <Grid>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="125" Stroke="Black" VerticalAlignment="Top" Width="953" Margin="148,93,0,0"/>
         <TextBlock HorizontalAlignment="Left" FontSize="35" Margin="313,27,0,0" Text="Record Visits and Contacts for Users" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="32,227,0,0" Text="Choose a user you would like to record events for:" VerticalAlignment="Top" Width="499" Height="36"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="31,238,0,0" Text="Choose a user you would like to record events for:" VerticalAlignment="Top" Width="499" Height="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="198,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="When did this event occur? Select time and date:" Width="519"/>
+        <xctk:DateTimePicker x:Name="DateTimePickCtr" Margin="645,163,324,648" />
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="31,704,0,0" Text="No results? You can add a new user here:"/>
-        <TextBlock x:Name="warningText" Foreground="Red" Visibility="Hidden" HorizontalAlignment="Left" Margin="626,138,0,0" TextWrapping="Wrap" Text="You must choose one option." VerticalAlignment="Top" Width="326"/>
-        <TextBlock HorizontalAlignment="Left" Margin="75,113,0,0" Text="To start, please choose what would you like to record:" VerticalAlignment="Top"/>
-        <RadioButton x:Name="recordVisitsBtn" Content="Visits" HorizontalAlignment="Left" Margin="626,114,0,0" VerticalAlignment="Top" Width="93" Height="33" Checked="recordVisitsBtn_Checked"/>
-        <RadioButton x:Name="recordContactsBtn" Content="Contacts" HorizontalAlignment="Left" Margin="738,113,0,0" VerticalAlignment="Top" Height="33" Checked="recordContactsBtn_Checked"/>
-        <TextBox x:Name="userInput" HorizontalAlignment="Left" Height="39" Margin="32,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" />
+
+        <TextBlock x:Name="warningText" FontSize="18" Foreground="Red" Visibility="Hidden" HorizontalAlignment="Left" Margin="412,134,0,0" TextWrapping="Wrap" Text="You must choose one option." VerticalAlignment="Top" Width="326"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="198,112,0,0" Text="To start, please choose what would you like to record:" VerticalAlignment="Top"/>
+        <RadioButton x:Name="recordVisitsBtn" Content="Visits" HorizontalAlignment="Left" Margin="699,114,0,0" VerticalAlignment="Top" Width="93" Height="33" Checked="recordVisitsBtn_Checked"/>
+        <RadioButton x:Name="recordContactsBtn" Content="Contacts" HorizontalAlignment="Left" Margin="797,112,0,0" VerticalAlignment="Top" Height="33" Checked="recordContactsBtn_Checked"/>
+
+        <TextBox x:Name="userInput" HorizontalAlignment="Left" Height="33" Margin="32,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
         <TextBlock HorizontalAlignment="Left" Margin="32,278,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
-        <RadioButton x:Name="UserLNSearchBtn" Content="Last Name" HorizontalAlignment="Left" Margin="182,279,0,0" VerticalAlignment="Top" Checked="UserLNSearchBtn_Checked"/>
-        <RadioButton x:Name="UserIDSearchBtn" Content="User's ID" HorizontalAlignment="Left" Margin="352,279,0,0" VerticalAlignment="Top" Checked="UserIDSearchBtn_Checked"/>
-        <Image x:Name="HelpImg" HorizontalAlignment="Left" Height="33" Margin="895,114,0,0" VerticalAlignment="Top" Width="34" Source="question-mark-circle-icon.png" MouseEnter="HelpImg_MouseEnter" RenderTransformOrigin="-0.717,0.478"/>
-        <Button x:Name="SearchUsersBtn" Content="Search" HorizontalAlignment="Left" Margin="401,334,0,0" VerticalAlignment="Top" Width="101" Height="39" Click="SearchUsersBtn_Click"/>
-        <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="285" Margin="31,396,0,0" VerticalAlignment="Top" Width="563"/>
-        <Button x:Name="AddUserBtn" Content="Add user" HorizontalAlignment="Left" Margin="442,697,0,0" VerticalAlignment="Top" Width="124" Height="38" Click="AddUserBtn_Click"/>
-        <ListBox x:Name="resultsList" HorizontalAlignment="Left" Height="285" Margin="640,396,0,0" VerticalAlignment="Top" Width="605"/>
-        <TextBlock HorizontalAlignment="Left" Margin="640,704,0,0" TextWrapping="Wrap" Text="Or add a new location here:" VerticalAlignment="Top"/>
-        <Button x:Name="AddLocBtn" Content="Add location" HorizontalAlignment="Left" Margin="968,699,0,0" VerticalAlignment="Top" Width="152" Height="36" Click="AddLocBtn_Click"/>
-        <TextBlock x:Name="visitText" Visibility="Hidden" HorizontalAlignment="Left" Margin="640,227,0,0" TextWrapping="Wrap" Text="To record a visit, choose a location visited by the user:" VerticalAlignment="Top" Width="574" Height="36"/>
-        <TextBox x:Name="userInput2" HorizontalAlignment="Left" Height="39" Margin="640,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="313" />
-        <Button x:Name="SearchVisitContactBtn" Content="Search" HorizontalAlignment="Left" Margin="1005,334,0,0" VerticalAlignment="Top" Width="101" Height="39" Click="SearchVisitContactBtn_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="640,278,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
-        <RadioButton x:Name="LocNameSearchBtn" Content="Name" Visibility="Hidden" HorizontalAlignment="Left" Margin="783,279,0,0" VerticalAlignment="Top" Checked="LocNameSearchBtn_Checked"/>
-        <RadioButton x:Name="PostCodeSearchBtn" Content="Post Code" Visibility="Hidden" HorizontalAlignment="Left" Margin="919,279,0,0" VerticalAlignment="Top" Checked="PostCodeSearchBtn_Checked"/>
-        <TextBlock x:Name="contactText" Visibility="Hidden" HorizontalAlignment="Left" Margin="640,227,0,0" TextWrapping="Wrap" Text="To record a contact, choose a person the user was in contact with:" VerticalAlignment="Top" Width="638" Height="36"/>
-        <RadioButton x:Name="ContactIDSearchBtn" Visibility="Hidden" Content="User's ID" HorizontalAlignment="Left" Margin="919,279,0,0" VerticalAlignment="Top" Checked="ContactIDSearchBtn_Checked"/>
-        <RadioButton x:Name="ContactNameSearchBtn" Visibility="Hidden" Content="Last Name" HorizontalAlignment="Left" Margin="782,278,0,0" VerticalAlignment="Top" Checked="ContactNameSearchBtn_Checked"/>
-        <TextBlock HorizontalAlignment="Left" Margin="75,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="When did this event occur? Select time and date:" Width="519"/>
-        <xctk:DateTimePicker x:Name="DateTimePickCtr" Margin="599,170,370,636" />
-        <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" Margin="170,791,0,0" VerticalAlignment="Top" Width="105" Height="40" Click="ReturnBtn_Click"/>
-        <Button x:Name="SaveExitBtn" Content="Save Event and Exit" HorizontalAlignment="Left" Margin="489,791,0,0" VerticalAlignment="Top" Width="197" Height="40" Click="SaveExitBtn_Click"/>
-        <Button x:Name="AddAnotherBtn" Content="Save Event and Add Another" HorizontalAlignment="Left" Margin="782,791,0,0" VerticalAlignment="Top" Width="324" Height="40" Click="AddAnotherBtn_Click"/>
-        <Button x:Name="ShowAllUsersBtn" Content="All" HorizontalAlignment="Left" Margin="534,334,0,0" VerticalAlignment="Top" Width="60" Height="39" Click="ShowAllUsersBtn_Click"/>
-        <Button x:Name="ShowAllBtn" Content="All" HorizontalAlignment="Left" Margin="1135,334,0,0" VerticalAlignment="Top" Width="60" Height="39" Click="ShowAllBtn_Click"/>
+        <RadioButton x:Name="UserLNSearchBtn" Content="Last Name" HorizontalAlignment="Left" Margin="267,279,0,0" VerticalAlignment="Top" Checked="UserLNSearchBtn_Checked"/>
+        <RadioButton x:Name="UserIDSearchBtn" Content="User's ID" HorizontalAlignment="Left" Margin="148,279,0,0" VerticalAlignment="Top" Checked="UserIDSearchBtn_Checked"/>
+        <Image x:Name="HelpImg" HorizontalAlignment="Left" Height="23" Margin="921,114,0,0" VerticalAlignment="Top" Width="31" Source="question-mark-circle-icon.png" MouseEnter="HelpImg_MouseEnter" RenderTransformOrigin="-0.717,0.478"/>
+        <Button x:Name="SearchUsersBtn" Content="Search" HorizontalAlignment="Left" Margin="313,334,0,0" VerticalAlignment="Top" Width="80" Height="33" Click="SearchUsersBtn_Click"/>
+        <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="248" Margin="31,396,0,0" VerticalAlignment="Top" Width="524" SelectionChanged="usersList_SelectionChanged"/>
+        <Button x:Name="AddUserBtn" Content="Add user" HorizontalAlignment="Left" Margin="412,697,0,0" VerticalAlignment="Top" Width="100" Height="38" Click="AddUserBtn_Click"/>
+        <ListBox x:Name="resultsList" HorizontalAlignment="Left" Height="248" Margin="594,396,0,0" VerticalAlignment="Top" Width="643" SelectionChanged="resultsList_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="599,704,0,0" TextWrapping="Wrap" Text="Or add a new location here:" VerticalAlignment="Top"/>
+        <Button x:Name="AddLocBtn" Content="Add location" HorizontalAlignment="Left" Margin="875,699,0,0" VerticalAlignment="Top" Width="137" Height="36" Click="AddLocBtn_Click"/>
+
+
+        <TextBox x:Name="userInput2" HorizontalAlignment="Left" Height="33" Margin="599,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="313" />
+        <Button x:Name="SearchVisitContactBtn" Content="Search" HorizontalAlignment="Left" Margin="932,334,0,0" VerticalAlignment="Top" Width="80" Height="33" Click="SearchVisitContactBtn_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="599,282,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
+
+        <TextBlock x:Name="visitText" Visibility="Hidden" HorizontalAlignment="Left" Margin="599,238,0,0" TextWrapping="Wrap" Text="To record a visit, choose a location visited by the user:" VerticalAlignment="Top" Width="581" Height="36"/>
+        <RadioButton x:Name="LocNameSearchBtn" Content="Name" Visibility="Hidden" HorizontalAlignment="Left" Margin="738,287,0,0" VerticalAlignment="Top" Checked="LocNameSearchBtn_Checked"/>
+        <RadioButton x:Name="PostCodeSearchBtn" Content="Post Code" Visibility="Hidden" HorizontalAlignment="Left" Margin="895,287,0,0" VerticalAlignment="Top" Checked="PostCodeSearchBtn_Checked"/>
+        <TextBlock x:Name="contactText" Visibility="Hidden" HorizontalAlignment="Left" Margin="599,238,0,0" TextWrapping="Wrap" Text="To record a contact, choose a person the user was in contact with:" VerticalAlignment="Top" Width="638" Height="36"/>
+        <RadioButton x:Name="ContactIDSearchBtn" Visibility="Hidden" Content="User's ID" HorizontalAlignment="Left" Margin="738,287,0,0" VerticalAlignment="Top" Checked="ContactIDSearchBtn_Checked"/>
+        <RadioButton x:Name="ContactNameSearchBtn" Visibility="Hidden" Content="Last Name" HorizontalAlignment="Left" Margin="895,287,0,0" VerticalAlignment="Top" Checked="ContactNameSearchBtn_Checked"/>
+
+
+
+
+        <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" Margin="172,776,0,0" VerticalAlignment="Top" Width="105" Height="40" Click="ReturnBtn_Click"/>
+        <Button x:Name="SaveExitBtn" Background="#FFD7EFE6" Content="Save Event and Exit" HorizontalAlignment="Left" Margin="412,776,0,0" VerticalAlignment="Top" Width="197" Height="40" Click="SaveExitBtn_Click"/>
+        <Button x:Name="AddAnotherBtn" Background="#FFD7EFE6" Content="Save Event and Add Another" HorizontalAlignment="Left" Margin="753,776,0,0" VerticalAlignment="Top" Width="324" Height="40" Click="AddAnotherBtn_Click"/>
+        <Button x:Name="ShowAllUsersBtn" Content="Show All" HorizontalAlignment="Left" Margin="412,334,0,0" VerticalAlignment="Top" Width="100" Height="33" Click="ShowAllUsersBtn_Click"/>
+        <Button x:Name="ShowAllBtn" Content="Show All" HorizontalAlignment="Left" Margin="1034,334,0,0" VerticalAlignment="Top" Width="102" Height="33" Click="ShowAllBtn_Click"/>
+        <TextBox x:Name="selectedUserDisplay" HorizontalAlignment="Left" Height="33" Margin="31,644,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="524"/>
+        <TextBox x:Name="selectedItemDisplay" HorizontalAlignment="Left" Height="33" Margin="594,644,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="643"/>
     </Grid>
 </Window>

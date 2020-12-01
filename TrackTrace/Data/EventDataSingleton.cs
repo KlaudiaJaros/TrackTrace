@@ -8,20 +8,20 @@ using TrackTrace.BusinessObject;
 
 namespace TrackTrace.Data
 {
-    class EventDataSystem
+    class EventDataSingleton
     {
         private const string fileName = "EventData.csv";
-        private static int eventId;
-        private static EventDataSystem eventDataSystem;
+        private static long eventId;
+        private static EventDataSingleton eventDataSystem;
 
-        private EventDataSystem() { }
-        public static EventDataSystem EventDataInstance
+        private EventDataSingleton() { }
+        public static EventDataSingleton EventDataInstance
         {
             get
             {
                 if (eventDataSystem == null)
                 {
-                    eventDataSystem = new EventDataSystem();
+                    eventDataSystem = new EventDataSingleton();
                 }
                 return eventDataSystem;
             }
@@ -36,7 +36,7 @@ namespace TrackTrace.Data
                 string[] separated = lastLine.Split(',');
                 try
                 {
-                    eventId = Int32.Parse(separated[1]) + 1;
+                    eventId = long.Parse(separated[1]) + 1;
                 }
                 catch (Exception e)
                 {
@@ -56,7 +56,7 @@ namespace TrackTrace.Data
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
 
             string eventCSV = "";
-            if(newEvent is Contact)
+            if (newEvent is Contact)
             {
                 eventCSV = "C," + newEvent.ToCSV();
             }
@@ -69,7 +69,7 @@ namespace TrackTrace.Data
             eventId++;
         }
 
-        public List<User> GetUsersByLocationAndDate(int locationId, DateTime fromDate, DateTime toDate)
+        public List<User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
         {
             List<User> users = new List<User>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
@@ -83,19 +83,20 @@ namespace TrackTrace.Data
                     if (type == 'V')
                     {
                         DateTime date = DateTime.Parse(separated[2]);
-                        int recordLocationId = 0;
-                        Int32.TryParse(separated[7], out recordLocationId);
+                        long recordLocationId = 0;
+                        long.TryParse(separated[7], out recordLocationId);
 
                         // check if the record is between the desired dates and it is the right location:
-                        if (date > fromDate && date < toDate && recordLocationId==locationId)
+                        if (date > fromDate && date < toDate && recordLocationId == locationId)
                         {
                             User user = new User();
-                            int userId = 0;
-                            Int32.TryParse(separated[3], out userId);
+                            long userId = 0;
+                            long.TryParse(separated[3], out userId);
                             user.SetId(userId);
-                            user.SetFirstName(separated[4]);
-                            user.SetLastName(separated[5]);
-                            user.SetPhoneNo(separated[6]);
+                            user.SetPhoneNo(separated[4]);
+                            user.SetFirstName(separated[5]);
+                            user.SetLastName(separated[6]);
+                            
 
                             users.Add(user);
                         }
@@ -107,7 +108,7 @@ namespace TrackTrace.Data
             return users;
         }
 
-        public List<User> GetUsersByContactAndDate(int userId, DateTime dateTime)
+        public List<User> GetUsersByContactAndDate(long userId, DateTime dateTime)
         {
             List<User> users = new List<User>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
@@ -122,19 +123,20 @@ namespace TrackTrace.Data
                     {
                         DateTime date = DateTime.Parse(separated[2]);
 
-                        int user1Id = 0;
-                        Int32.TryParse(separated[3], out user1Id);
-                        int user2Id = 0;
-                        Int32.TryParse(separated[7], out user2Id);
+                        long user1Id = 0;
+                        long.TryParse(separated[3], out user1Id);
+                        long user2Id = 0;
+                        long.TryParse(separated[7], out user2Id);
 
                         // check if the record is between the desired dates:
-                        if (date > dateTime && userId == user1Id )
+                        if (date > dateTime && userId == user1Id)
                         {
                             User user2 = new User();
                             user2.SetId(user2Id);
-                            user2.SetFirstName(separated[8]);
-                            user2.SetLastName(separated[9]);
-                            user2.SetPhoneNo(separated[10]);
+                            user2.SetPhoneNo(separated[8]);
+                            user2.SetFirstName(separated[9]);
+                            user2.SetLastName(separated[10]);
+                            
 
                             users.Add(user2);
                         }
@@ -142,9 +144,10 @@ namespace TrackTrace.Data
                         {
                             User user1 = new User();
                             user1.SetId(user1Id);
-                            user1.SetFirstName(separated[4]);
-                            user1.SetLastName(separated[5]);
-                            user1.SetPhoneNo(separated[6]);
+                            user1.SetPhoneNo(separated[4]);
+                            user1.SetFirstName(separated[5]);
+                            user1.SetLastName(separated[6]);
+                            
 
                             users.Add(user1);
                         }
@@ -172,19 +175,20 @@ namespace TrackTrace.Data
 
                     // shared Event properties:
                     char type = separated[0].ElementAt(0);
-                    int id = 0;
-                    Int32.TryParse(separated[1], out id);
+                    long id = 0;                    
+                    long.TryParse(separated[1], out id);
                     getEvent.SetId(id);
                     getEvent.SetDateTime(DateTime.Parse(separated[2]));
 
                     // the first user for both Contact and Visit:
                     User user1 = new User();
-                    int userId = 0;
-                    Int32.TryParse(separated[3], out userId);
+                    long userId = 0;
+                    long.TryParse(separated[3], out userId);
                     user1.SetId(userId);
-                    user1.SetFirstName(separated[4]);
-                    user1.SetLastName(separated[5]);
-                    user1.SetPhoneNo(separated[6]);
+                    user1.SetPhoneNo(separated[4]);
+                    user1.SetFirstName(separated[5]);
+                    user1.SetLastName(separated[6]);
+                    
 
                     // Contact and Visit specific properties:
                     if (type == 'C')
@@ -197,9 +201,10 @@ namespace TrackTrace.Data
                         int user2Id = 0;
                         Int32.TryParse(separated[7], out user2Id);
                         user2.SetId(user2Id);
-                        user2.SetFirstName(separated[8]);
-                        user2.SetLastName(separated[9]);
-                        user2.SetPhoneNo(separated[10]);
+                        user2.SetPhoneNo(separated[8]);
+                        user2.SetFirstName(separated[9]);
+                        user2.SetLastName(separated[10]);
+                        
 
                         contact.User2 = user2;
                         getEvent = contact;
@@ -211,8 +216,8 @@ namespace TrackTrace.Data
 
                         // get the location for Visit:
                         Location location = new Location();
-                        int locId = 0;
-                        Int32.TryParse(separated[7], out locId);
+                        long locId = 0;
+                        long.TryParse(separated[7], out locId);
                         location.SetId(locId);
                         location.Name = separated[8];
                         location.Address = separated[9];

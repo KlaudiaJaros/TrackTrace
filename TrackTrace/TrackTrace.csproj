@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.1.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.1.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -80,15 +86,14 @@
     </Compile>
     <Compile Include="BusinessObject\Contact.cs" />
     <Compile Include="BusinessObject\Event.cs" />
+    <Compile Include="BusinessObject\EventTestClass.cs" />
     <Compile Include="BusinessObject\Location.cs" />
     <Compile Include="BusinessObject\User.cs" />
     <Compile Include="BusinessObject\Visit.cs" />
-    <Compile Include="Data\EventDataSystem.cs" />
-    <Compile Include="Data\EventFactory.cs" />
-    <Compile Include="Data\IdGeneratorSingleton.cs" />
-    <Compile Include="Data\LocationDataSystem.cs" />
+    <Compile Include="Data\EventDataSingleton.cs" />
+    <Compile Include="Data\LocationDataSingleton.cs" />
     <Compile Include="Data\DataFacade.cs" />
-    <Compile Include="Data\UserDataSystem.cs" />
+    <Compile Include="Data\UserDataSingleton.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -156,9 +161,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="TrackTrace.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Presentation\question-mark-circle-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Presentation\TrackTrace.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

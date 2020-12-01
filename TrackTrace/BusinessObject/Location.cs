@@ -8,16 +8,16 @@ namespace TrackTrace.BusinessObject
 {
     public class Location
     {
-        private int id;
+        private long id;
         public string Name { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
         public string Town { get; set; }
-        public int GetId()
+        public long GetId()
         {
             return this.id;
         }
-        public void SetId(int i)
+        public void SetId(long i)
         {
             this.id = i;
         }

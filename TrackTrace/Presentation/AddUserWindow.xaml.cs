@@ -43,8 +43,8 @@ namespace TrackTrace.Presentation
                 newUser.SetLastName(lastNameBox.Text);
                 newUser.SetPhoneNo(phoneNoBox.Text);
                 DataFacade.SaveUser(newUser);
-                
-                MessageBox.Show("User(s) successfully added.");
+
+                MessageBox.Show("User successfully added with a user id: " + newUser.GetId() + ". \nPlease save it for future reference.");
                 mainMenu = new MainWindow();
                 mainMenu.Show();
                 this.Close();
@@ -64,6 +64,7 @@ namespace TrackTrace.Presentation
                 firstNameBox.Text = "";
                 lastNameBox.Text = "";
                 phoneNoBox.Text = "";
+                MessageBox.Show("User successfully added with a user id: " + newUser.GetId() + ". \nPlease save it for future reference.");
             }
 
         }
@@ -77,15 +78,15 @@ namespace TrackTrace.Presentation
             bool isValid = true;
 
             // check name:
-            if(firstNameBox.Text=="" || firstNameBox.Text.Length>70)
+            if(firstNameBox.Text.Length>70)
             {
                 isValid = false;
-                MessageBox.Show("Please provide a valid first name.");
+                MessageBox.Show("Please provide a valid first name or leave the field empty.");
             }
-            if (lastNameBox.Text == "" || lastNameBox.Text.Length>70)
+            if (lastNameBox.Text.Length>70)
             {
                 isValid = false;
-                MessageBox.Show("Please provide a valid last name.");
+                MessageBox.Show("Please provide a valid last name or leave the field empty.");
             }
 
             // check phone number:
@@ -112,21 +113,21 @@ namespace TrackTrace.Presentation
         private void fnImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
-            tp.Content = "User's first name. Max 70 characters.";
+            tp.Content = "Optional field. User's first name. Max 70 characters.";
             fnImg.ToolTip = tp;
         }
 
         private void pnImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
-            tp.Content = "User's phone number. UK mobile format: 07XXXXXXXXX or UK landline format.";
+            tp.Content = "Mandatory field. User's phone number. UK mobile format: 07XXXXXXXXX or UK landline format.";
             pnImg.ToolTip = tp;
         }
 
         private void lnImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
-            tp.Content = "User's last name. Max 70 characters.";
+            tp.Content = "Optional field. User's last name. Max 70 characters.";
             lnImg.ToolTip = tp;
         }
     }

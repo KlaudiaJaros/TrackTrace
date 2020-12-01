@@ -5,26 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace.Presentation" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Generate Data" Height="696.966" Width="800" FontSize="20" Left="100" Top="100">
+        Title="Generate Data" Height="711.967" Width="800" FontSize="19" Left="100" Top="100" Icon="TrackTrace.ico">
     <Grid>
         <TextBlock FontSize="22" HorizontalAlignment="Left" Margin="79,31,0,0" TextWrapping="Wrap" Text="Generate a list of contacts for a user after a specified date and time:" VerticalAlignment="Top" Width="686"/>
 
-        <xctk:DateTimePicker Name="datePicker" Margin="246,88,261,533" />
+        <xctk:DateTimePicker Name="datePicker" Margin="246,88,261,558" />
         <TextBlock HorizontalAlignment="Left" Margin="36,96,0,0" TextWrapping="Wrap" Text="Select date and time:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,139,0,0" TextWrapping="Wrap" Text="Select a user:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="36,189,0,0" TextWrapping="Wrap" Text="Search by:" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="497,188,0,0" TextWrapping="Wrap" Text="See all users:" VerticalAlignment="Top"/>
         <RadioButton x:Name="lastNameSearchBtn" Content="User's last name" HorizontalAlignment="Left" Margin="276,189,0,0" VerticalAlignment="Top" Checked="lastNameSearchBtn_Checked" />
         <RadioButton x:Name="idSearchBtn" Content="User's ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,189,0,0" Checked="idSearchBtn_Checked"/>
-        <TextBox x:Name="userInput" HorizontalAlignment="Left" Height="31" Margin="148,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195"/>
-        <Button x:Name="SearchUsersBtn" Content="Search" HorizontalAlignment="Left" Margin="363,225,0,0" VerticalAlignment="Top" Width="75" Click="SearchUsersBtn_Click"/>
-        <Button x:Name="ShowAllUsersBtn" Content="Show All" HorizontalAlignment="Left" Margin="643,184,0,0" VerticalAlignment="Top" Width="95" Click="ShowAllUsersBtn_Click" />
-        <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="100" Margin="148,285,0,0" VerticalAlignment="Top" Width="461"/>
-        <TextBlock HorizontalAlignment="Left" Margin="36,418,0,0" TextWrapping="Wrap" Text="Results:" VerticalAlignment="Top"/>
-        <ListBox x:Name="resultsList" HorizontalAlignment="Left" Height="180" Margin="148,418,0,0" VerticalAlignment="Top" Width="461"/>
-        <Button x:Name="ClearBtn" Content="Clear Search" HorizontalAlignment="Left" Margin="276,615,0,0" VerticalAlignment="Top" Width="133" Click="ClearBtn_Click"/>
-        <Button x:Name="ExportToFileBtn" Content="Export to a file" HorizontalAlignment="Left" Margin="497,615,0,0" VerticalAlignment="Top" Width="153" Click="ExportToFileBtn_Click"/>
-        <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="117,615,0,0" Click="ReturnBtn_Click" />
-        <Button x:Name="ShowResultsBtn" Content="Show results" HorizontalAlignment="Left" Margin="643,418,0,0" VerticalAlignment="Top" Width="122" Click="ShowResultsBtn_Click"/>
+        <TextBox x:Name="userInput" HorizontalAlignment="Left" Height="31" Margin="148,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="198"/>
+        <Button x:Name="SearchUsersBtn"  Content="Search" HorizontalAlignment="Left" Margin="378,225,0,0" VerticalAlignment="Top" Width="75" Click="SearchUsersBtn_Click"/>
+        <Button x:Name="ShowAllUsersBtn" Content="Show All" HorizontalAlignment="Left" Margin="487,225,0,0" VerticalAlignment="Top" Width="105" Click="ShowAllUsersBtn_Click" />
+        <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="100" Margin="148,272,0,0" VerticalAlignment="Top" Width="461"/>
+        <TextBlock HorizontalAlignment="Left" Margin="36,404,0,0" TextWrapping="Wrap" Text="Results:" VerticalAlignment="Top"/>
+        <ListBox x:Name="resultsList" HorizontalAlignment="Left" Height="180" Margin="148,404,0,0" VerticalAlignment="Top" Width="461"/>
+        <Button x:Name="ClearBtn" Background="#FFD7EFE6" Content="Clear Search" HorizontalAlignment="Left" Margin="305,615,0,0" VerticalAlignment="Top" Width="133" Height="35" Click="ClearBtn_Click" RenderTransformOrigin="0.81,0.614"/>
+        <Button x:Name="ExportToFileBtn" Background="#FFD7EFE6" Content="Export to a file" HorizontalAlignment="Left" Margin="497,615,0,0" VerticalAlignment="Top" Height="35" Width="153" Click="ExportToFileBtn_Click"/>
+        <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Margin="117,615,0,0" Click="ReturnBtn_Click" Height="35" />
+        <Button x:Name="ShowResultsBtn"  Content="Show results" HorizontalAlignment="Left" Margin="643,404,0,0" VerticalAlignment="Top" Width="122" Click="ShowResultsBtn_Click"/>
     </Grid>
 </Window>

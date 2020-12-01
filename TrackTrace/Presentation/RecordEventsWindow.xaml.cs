@@ -54,6 +54,8 @@ namespace TrackTrace.Presentation
 
             // set the date to now:
             DateTimePickCtr.Value = DateTime.Now;
+            DateTimePickCtr.Maximum = DateTime.Now;
+            DateTimePickCtr.ClipValueToMinMax = true;
 
             LoadData();
         }
@@ -103,12 +105,20 @@ namespace TrackTrace.Presentation
                 if (recordContactsBtn.IsChecked == true)
                 {
                     User contactUser = (User)resultsList.SelectedItem;
-                    Contact saveContact = new Contact();
-                    saveContact.SetDateTime(DateTimePickCtr.Value);
-                    saveContact.User1 = selectedUser;
-                    saveContact.User2 = contactUser;
+                    if (selectedUser.GetId() == contactUser.GetId())
+                    {
+                        MessageBox.Show("Please select two different users.");
+                    }
+                    else
+                    {
+                        Contact saveContact = new Contact();
+                        saveContact.SetDateTime(DateTimePickCtr.Value);
+                        saveContact.User1 = selectedUser;
+                        saveContact.User2 = contactUser;
 
-                    DataFacade.SaveEvent(saveContact);
+                        DataFacade.SaveEvent(saveContact);
+                        MessageBox.Show("Contact for " + selectedUser.ToString() + " successfully saved.");
+                    }
                 }
                 else if (recordVisitsBtn.IsChecked == true)
                 {
@@ -119,9 +129,11 @@ namespace TrackTrace.Presentation
                     saveVisit.Location = visitLocation;
 
                     DataFacade.SaveEvent(saveVisit);
+                    MessageBox.Show("Visit for " + selectedUser.ToString() + " successfully saved.");
                 }
-                MessageBox.Show("Event for " + selectedUser.ToString() + " successfully saved.");
+                
 
+                // if the save and exit button called this method, exit:
                 Button b = (Button)sender;
                 if (b.Name == "SaveExitBtn")
                 {
@@ -142,6 +154,10 @@ namespace TrackTrace.Presentation
             DateTimePickCtr.Value=DateTime.Now;
             usersList.SelectedItem = null;
             resultsList.SelectedItem = null;
+            selectedItemDisplay.Text = "";
+            selectedUserDisplay.Text = "";
+            userInput.Text = "";
+            userInput2.Text = "";
 
         }
 
@@ -194,7 +210,7 @@ namespace TrackTrace.Presentation
             {
                 foreach(Location l in locations)
                 {
-                    if (l.PostCode.Equals(userInput))
+                    if (l.PostCode.ToLower().Equals(userInput.ToLower()))
                     {
                         results.Add(l);
                     }
@@ -243,6 +259,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
         {
+            selectedUserDisplay.Text = "";
+
             if (UserLNSearchBtn.IsChecked==false && UserIDSearchBtn.IsChecked == false)
             {
                 MessageBox.Show("Please select if you are searching by User's last name or ID.");
@@ -263,6 +281,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void SearchVisitContactBtn_Click(object sender, RoutedEventArgs e)
         {
+            selectedItemDisplay.Text = "";
+
             if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
             {
                 warningText.Visibility = Visibility.Visible;
@@ -294,6 +314,7 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
         {
+            userInput.Text = "";
             usersList.ItemsSource = users;
         }
 
@@ -304,6 +325,7 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ShowAllBtn_Click(object sender, RoutedEventArgs e)
         {
+            userInput2.Text = "";
             if (recordContactsBtn.IsChecked == false && recordVisitsBtn.IsChecked == false)
             {
                 warningText.Visibility = Visibility.Visible;
@@ -329,8 +351,8 @@ namespace TrackTrace.Presentation
         private void HelpImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
-            tp.Content = "Visit - occurs when a user checks in at a particular location. To record a visit, select 'Visits' and use the tool below to find a location which was visited by the user.\n" +
-                "Contact - occurs when two users have come into contact. To record a contact, select 'Contacts' and use the tool below to find a person the user has been in contact with.";
+            tp.Content = "Visit - occurs when a user checks in at a particular location.\n" +
+                "Contact - occurs when two users have come into contact.";
             HelpImg.ToolTip = tp;
         }
         /// <summary>
@@ -408,6 +430,22 @@ namespace TrackTrace.Presentation
         private void ContactNameSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             ContactIDSearchBtn.IsChecked = false;
+        }
+
+        private void usersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (usersList.SelectedItem != null)
+            {
+                selectedUserDisplay.Text = (usersList.SelectedItem).ToString();
+            }           
+        }
+
+        private void resultsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (resultsList.SelectedItem != null)
+            {
+                selectedItemDisplay.Text = (resultsList.SelectedItem).ToString();
+            }       
         }
     }
 }

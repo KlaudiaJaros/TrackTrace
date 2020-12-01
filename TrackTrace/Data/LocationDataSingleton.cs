@@ -8,21 +8,21 @@ using TrackTrace.BusinessObject;
 
 namespace TrackTrace.Data
 {
-    class LocationDataSystem
+    class LocationDataSingleton
     {
         private const string fileName = "LocationData.csv";
         private static int locationId;
-        private static LocationDataSystem locationDataSystem;
+        private static LocationDataSingleton locationDataSystem;
 
-        private LocationDataSystem() { }
+        private LocationDataSingleton() { }
 
-        public static LocationDataSystem LocationDataInstance
+        public static LocationDataSingleton LocationDataInstance
         {
             get
             {
                 if (locationDataSystem == null)
                 {
-                    locationDataSystem = new LocationDataSystem();
+                    locationDataSystem = new LocationDataSingleton();
                 }
                 return locationDataSystem;
             }
@@ -62,7 +62,7 @@ namespace TrackTrace.Data
         {
             List<Location> locations = new List<Location>();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            
+
 
             if (File.Exists(path))
             {
@@ -75,9 +75,9 @@ namespace TrackTrace.Data
                     int id = 0;
                     Int32.TryParse(separated[0], out id);
                     location.SetId(id);
-                    location.Name=separated[1];
-                    location.Address=separated[2];
-                    location.PostCode=separated[3];
+                    location.Name = separated[1];
+                    location.Address = separated[2];
+                    location.PostCode = separated[3];
                     location.Town = separated[4];
 
                     locations.Add(location);

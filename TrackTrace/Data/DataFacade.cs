@@ -9,9 +9,9 @@ namespace TrackTrace.Data
 {
     public static class DataFacade
     {
-        private static UserDataSystem userSystem = UserDataSystem.UserDataInstance;
-        private static LocationDataSystem locationSystem = LocationDataSystem.LocationDataInstance;
-        private static EventDataSystem eventSystem= EventDataSystem.EventDataInstance;
+        private static UserDataSingleton userSystem = UserDataSingleton.UserDataInstance;
+        private static LocationDataSingleton locationSystem = LocationDataSingleton.LocationDataInstance;
+        private static EventDataSingleton eventSystem= EventDataSingleton.EventDataInstance;
 
        
         public static void SaveUser(User u)
@@ -38,12 +38,12 @@ namespace TrackTrace.Data
             List<Location> locations = locationSystem.GetLocations();
             return locations;
         }
-        public static List<User> GetUsersByLocationAndDate(int locationId, DateTime fromDate, DateTime toDate)
+        public static List<User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
         {
             List<User> users = eventSystem.GetUsersByLocationAndDate(locationId, fromDate, toDate);
             return users;
         }
-        public static List<User> GetUsersByContactAndDate(int userId, DateTime dateTime)
+        public static List<User> GetUsersByContactAndDate(long userId, DateTime dateTime)
         {
             List<User> users = eventSystem.GetUsersByContactAndDate(userId, dateTime);
             return users;

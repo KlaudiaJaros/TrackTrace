@@ -120,7 +120,7 @@ namespace TrackTrace.Presentation
 
                 foreach(User u in users)
                 {
-                    string record = u.GetFirstName() + " " + u.GetLastName() + ", phone number: " + u.GetPhoneNo();
+                    string record = "User: " + u.GetId() + ", phone number: " + u.GetPhoneNo() + " " + u.GetFirstName() + " " + u.GetLastName();
                     results.Add(record);
                 }
                 resultsList.ItemsSource = results;
@@ -139,7 +139,7 @@ namespace TrackTrace.Presentation
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog.FileName))
                 {
-                    string header = "Name, contact number:";
+                    string header = "User, contact number, (optional) name:";
                     file.WriteLine(header);
 
                     foreach (String s in results)

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace"
         mc:Ignorable="d"
-         Title="Track and Trace" Height="440" Width="680.143" FontSize="21" Left="200" Top="200">
-    <Grid Margin="20">
+         Title="Track and Trace" Height="440" Width="680.143" FontSize="21" Left="200" Top="200" Icon="TrackTrace.ico">
+    <Grid Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -17,21 +17,21 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Track and Trace" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="32" FontWeight="SemiBold"  Width="280" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBlock Text="Add records:" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <TextBlock Text="Add records:" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom"  />
         <TextBlock Text="Record events:" Grid.Row="1" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <TextBlock Text="Search records:" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock Text="Search records:" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
 
 
-        <Button x:Name="AddUserBtn" Content="Add a new user"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddUserBtn_Click" />
-        <Button x:Name="AddLocationBtn" Content="Add a location"  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddLocationBtn_Click" />
-        <Button x:Name="RecordEventsBtn" Content="Record events"  Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="RecordEventsBtn_Click" />
-        <Button x:Name="SearchContactsBtn" Content="By contacts"  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="SearchContactsBtn_Click" />
-        <Button x:Name="SearchLocationBtn" Content="By location"  Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="SearchLocationBtn_Click" />
+        <Button x:Name="AddUserBtn" Content="Add a new user" Background="#FFD7EFE6"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddUserBtn_Click" />
+        <Button x:Name="AddLocationBtn" Content="Add a location" Background="#FFD7EFE6" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddLocationBtn_Click" />
+        <Button x:Name="RecordEventsBtn" Background="#FFD7EFE6" Content="Record events"  Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="RecordEventsBtn_Click" />
+        <Button x:Name="SearchContactsBtn" Background="#FFD7EFE6" Content="By contacts"  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="SearchContactsBtn_Click" />
+        <Button x:Name="SearchLocationBtn" Background="#FFD7EFE6" Content="By location"  Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="SearchLocationBtn_Click" />
     </Grid>
 </Window>

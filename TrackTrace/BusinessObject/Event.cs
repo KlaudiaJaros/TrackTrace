@@ -8,20 +8,20 @@ namespace TrackTrace.BusinessObject
 {
     public class Event
     {
-        private int id;
+        private long id;
         private DateTime dateTime;
 
-        public int GetId()
+        public long GetId()
         {
             return id;
+        }
+        public void SetId(long i)
+        {
+            this.id = i;
         }
         public DateTime GetDateTime()
         {
             return dateTime;
-        }
-        public void SetId(int i)
-        {
-            this.id = i;
         }
         public void SetDateTime(DateTime? d)
         {

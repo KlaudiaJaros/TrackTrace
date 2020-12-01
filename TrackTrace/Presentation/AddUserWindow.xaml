@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace.Presentation"
         mc:Ignorable="d"
-        Title="Add Users" Height="450" Width="670" FontSize="22" Left="200" Top="200">
+        Title="Add Users" Height="450" Width="670" FontSize="22" Left="200" Top="200" Icon="TrackTrace.ico">
     <StackPanel>
         <Grid Margin="20" Height="280" Width="550">
             <Grid.ColumnDefinitions>
@@ -22,24 +22,24 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Add users" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="First name:" Grid.Column="1" Grid.Row="1" Padding="10,5" />
-            <TextBlock Text="Last name:" Grid.Column="1" Grid.Row="2" Padding="10,5" />
-            <TextBlock Text="Phone number: " Grid.Column="1" Grid.Row="3" Padding="10,5" />
+            <TextBlock Text="First name:" Grid.Column="1" Grid.Row="3" Padding="10,5" />
+            <TextBlock Text="Last name:" Grid.Row="3" Padding="10,5" Margin="0,40,0,10" Grid.RowSpan="2" Grid.Column="1" />
+            <TextBlock Text="Phone number: " Grid.Column="1" Grid.Row="1" Padding="10,5" />
+            <TextBlock Text="Optional:" FontSize="18" Grid.Row="2" Grid.Column="1" Padding="10,10"  />
+            <TextBox x:Name="firstNameBox" Grid.Column="2" Grid.Row="3" Padding="5" Width="250" Margin="0,0,0,50.509" Grid.RowSpan="2"/>
+            <TextBox x:Name="lastNameBox" Grid.Column="2" Grid.Row="3" Padding="5" Width="250" Margin="0,40,0,10" Grid.RowSpan="2"/>
+            <TextBox x:Name="phoneNoBox" Grid.Column="2" Padding="5" Width="250" Margin="0,107,0,0" Grid.RowSpan="2"/>
 
-            <TextBox x:Name="firstNameBox" Grid.Column="2" Grid.Row="1" Padding="5" Width="250"/>
-            <TextBox x:Name="lastNameBox" Grid.Column="2" Grid.Row="2" Padding="5" Width="250"/>
-            <TextBox x:Name="phoneNoBox" Grid.Column="2" Grid.Row="3" Padding="5" Width="250"/>
-
-            <Image x:Name="fnImg" Width="30"  Margin="16,5,17,0" Grid.Column="3" Grid.Row="1" Source="question-mark-circle-icon.png" MouseEnter="fnImg_MouseEnter" />
-            <Image x:Name="lnImg" Width="30"  Margin="16,5,17,0"  Grid.Column="3" Grid.Row="2" Source="question-mark-circle-icon.png" MouseEnter="lnImg_MouseEnter" />
-            <Image x:Name="pnImg" Width="30"  Margin="16,5,17,0"  Grid.Column="3" Grid.Row="3" Source="question-mark-circle-icon.png" MouseEnter="pnImg_MouseEnter" />
+            <Image x:Name="fnImg" Width="30"  Margin="16,5,17,0" Grid.Column="3" Grid.Row="3" Source="question-mark-circle-icon.png" MouseEnter="fnImg_MouseEnter" />
+            <Image x:Name="lnImg" Width="30"  Margin="16,5,17,9"  Grid.Column="3" Grid.Row="4" Source="question-mark-circle-icon.png" MouseEnter="lnImg_MouseEnter" />
+            <Image x:Name="pnImg" Width="30"  Margin="16,0,17,5"  Grid.Column="3" Grid.Row="1" Source="question-mark-circle-icon.png" MouseEnter="pnImg_MouseEnter" />
         </Grid>
         <Grid Height="50" Width="550">
 
 
             <Button x:Name="ReturnBtn" Content="Return"  Width="90" Height="35" Click="ReturnBtn_Click" Margin="32,5,428,10" />
-            <Button x:Name="AddUserBtn" Content="Save User"  Width="120" Height="35" Margin="154,5,276,10" Click="AddUserBtn_Click" />
-            <Button x:Name="AddAnotherUserBtn" Content="Save and Add Another" Width="240" Height="35" Margin="300,5,10,10" Click="AddAnotherUserBtn_Click" />
+            <Button x:Name="AddUserBtn" Background="#FFD7EFE6" Content="Save User"  Width="120" Height="35" Margin="154,5,276,10" Click="AddUserBtn_Click" />
+            <Button x:Name="AddAnotherUserBtn" Background="#FFD7EFE6" Content="Save and Add Another" Width="240" Height="35" Margin="300,5,10,10" Click="AddAnotherUserBtn_Click" />
         </Grid>
     </StackPanel>
 </Window>

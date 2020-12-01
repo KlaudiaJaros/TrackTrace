@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackTrace.Presentation"
         mc:Ignorable="d"
-        Title="AddLocationWindow" Height="450" Width="670" FontSize="22" Left="200" Top="200">
+        Title="AddLocationWindow" Height="450" Width="670" FontSize="22" Left="200" Top="200" Icon="TrackTrace.ico">
     <StackPanel>
         <Grid Margin="20" Height="300" Width="550">
             <Grid.ColumnDefinitions>
@@ -43,8 +43,8 @@
         <Grid Height="50" Width="550">
 
             <Button x:Name="ReturnBtn" Content="Return"  Width="100" Height="35"  Margin="29,5,421,10" Click="ReturnBtn_Click" />
-            <Button x:Name="AddLocBtn" Content="Save"  Width="100" Height="35" Margin="154,5,276,10" Click="AddLocBtn_Click" />
-            <Button x:Name="AddAnotherLocBtn" Content="Save and Add Another" Width="240" Height="35" Margin="300,5,10,10" Click="AddAnotherLocBtn_Click" />
+            <Button x:Name="AddLocBtn" Content="Save" Background="#FFD7EFE6" Width="100" Height="35" Margin="154,5,276,10" Click="AddLocBtn_Click" />
+            <Button x:Name="AddAnotherLocBtn" Background="#FFD7EFE6" Content="Save and Add Another" Width="240" Height="35" Margin="300,5,10,10" Click="AddAnotherLocBtn_Click" />
         </Grid>
     </StackPanel>
 </Window>

@@ -8,13 +8,12 @@ namespace TrackTrace.BusinessObject
 {
     public class User
     {
-        private int id;
+        private long id;
         private string firstName;
         private string lastName;
         private string phoneNo;
 
-        public List<Event> Events { get; set; } = new List<Event>();
-        public int GetId()
+        public long GetId()
         {
             return id;
         }
@@ -38,7 +37,7 @@ namespace TrackTrace.BusinessObject
         {
             this.lastName = ln;
         }
-        public void SetId(int i)
+        public void SetId(long i)
         {
             this.id = i;
         }
@@ -48,11 +47,19 @@ namespace TrackTrace.BusinessObject
         }
         public string ToCSV()
         {
-            return this.id + "," + this.firstName + "," + this.lastName + "," + this.phoneNo;
+            return this.id + "," + this.phoneNo + "," + this.firstName + "," + this.lastName;
         }
         public override string ToString()
         {
-            return "User: "+ this.id +", " + this.firstName +", " + lastName;
+            if (this.firstName.Equals("") && this.lastName.Equals(""))
+            {
+                return "User: " + this.id;
+            }
+            else
+            {
+                string fullname = this.firstName + " " + this.lastName;
+                return "User: " + this.id + ", " + fullname;
+            }
         }
     }
 }
