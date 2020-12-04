@@ -11,19 +11,36 @@ namespace TrackTrace.BusinessObject
     class EventTestClass
     {
         [TestMethod]
-        public void CorrectIDIsHeld()
+        public void SetId_SetsCorrectId()
         {
             // arrange:
-            int id = 1;
+            long id = 111;
             Event eventTest = new Event();
 
             // act:
-            eventTest.SetId(id);
-            long actualID = eventTest.GetId();
+            eventTest.ID=id;
+            long actualID = eventTest.ID;
 
             // assert:
-            Assert.AreEqual(id, actualID, 0, "ID get and set methods failed.");
+            Assert.AreEqual(id, actualID, 0, "ID set method failed.");
         }
+
+        [TestMethod]
+        public void GetId_ReturnsCorrectId()
+        {
+            // arrange:
+            long id = 222;
+            Event eventTest = new Event();
+            eventTest.ID=id;
+
+            // act:
+            long actualID = eventTest.ID;
+
+            // assert:
+            Assert.AreEqual(id, actualID, 0, "ID get method failed.");
+        }
+
+
 
         [TestMethod]
         public void CorrectDateTimeIsHeld()
@@ -33,20 +50,24 @@ namespace TrackTrace.BusinessObject
             Event eventTest = new Event();
 
             // act:
-            eventTest.SetDateTime(date);
-            DateTime actualDate = eventTest.GetDateTime();
+            eventTest.DateAndTime=date;
+            DateTime actualDate = eventTest.DateAndTime;
 
             // assert:
-            Assert.AreEqual(date, actualDate, "DateTime get and set methods failed.");
+            Assert.AreEqual(date, actualDate, "DateTime set and/or get failed.");
         }
+
+        [TestMethod]
         public void ConvertToCSVTest()
         {
             // arrange:
-            int id = 20;
+            long id = 20;
             DateTime date = new DateTime(2020, 11, 25, 15, 15, 00);
+            
             Event eventTest = new Event();
-            eventTest.SetId(id);
-            eventTest.SetDateTime(date);
+            eventTest.ID=id;
+            eventTest.DateAndTime=date;
+
             string expectedCSV = id.ToString() +"," + date.ToString();
 
             // act:

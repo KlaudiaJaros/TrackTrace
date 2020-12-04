@@ -34,17 +34,17 @@
             <TextBox x:Name="locPostCodeBox" Grid.Column="2" Grid.Row="4" Padding="5" Width="250"/>
             <TextBox x:Name="locTownBox" Grid.Column="2" Grid.Row="5" Padding="5" Width="250"/>
 
-            <Image x:Name="NameImg" MaxWidth="30" Margin="23,5,17,0" Grid.Column="3" Grid.Row="1" Source="question-mark-circle-icon.png" MouseEnter="NameImg_MouseEnter" />
-            <Image x:Name="AddImg" MaxWidth="30" Margin="23,5,17,0" Grid.Column="3" Grid.Row="2" Source="question-mark-circle-icon.png" MouseEnter="AddImg_MouseEnter" />
-            <Image x:Name="PcImg" MaxWidth="30"  Margin="23,5,17,0" Grid.Column="3" Grid.Row="4" Source="question-mark-circle-icon.png" MouseEnter="PcImg_MouseEnter" />
-            <Image x:Name="TownImg" MaxWidth="30"  Margin="23,5,17,0" Grid.Column="3" Grid.Row="5" Source="question-mark-circle-icon.png" MouseEnter="TownImg_MouseEnter" />
-            
+            <Image x:Name="NameImg" MaxWidth="30" Margin="23,5,17,0" Grid.Column="3" Grid.Row="1" Source="question-mark-circle-icon.png" MouseEnter="NameHelpImg_MouseEnter" />
+            <Image x:Name="AddImg" MaxWidth="30" Margin="23,5,17,0" Grid.Column="3" Grid.Row="2" Source="question-mark-circle-icon.png" MouseEnter="AddressHelpImg_MouseEnter" />
+            <Image x:Name="PcImg" MaxWidth="30"  Margin="23,5,17,0" Grid.Column="3" Grid.Row="4" Source="question-mark-circle-icon.png" MouseEnter="PostCodeHelpImg_MouseEnter" />
+            <Image x:Name="TownImg" MaxWidth="30"  Margin="23,5,17,0" Grid.Column="3" Grid.Row="5" Source="question-mark-circle-icon.png" MouseEnter="TownHelpImg_MouseEnter" />
+
         </Grid>
         <Grid Height="50" Width="550">
 
-            <Button x:Name="ReturnBtn" Content="Return"  Width="100" Height="35"  Margin="29,5,421,10" Click="ReturnBtn_Click" />
-            <Button x:Name="AddLocBtn" Content="Save" Background="#FFD7EFE6" Width="100" Height="35" Margin="154,5,276,10" Click="AddLocBtn_Click" />
-            <Button x:Name="AddAnotherLocBtn" Background="#FFD7EFE6" Content="Save and Add Another" Width="240" Height="35" Margin="300,5,10,10" Click="AddAnotherLocBtn_Click" />
+            <Button x:Name="ReturnBtn" Content="Return"  Width="100" Height="35"  Margin="10,5,440,10" Click="ReturnBtn_Click" />
+            <Button x:Name="AddLocExitBtn" Content="Save and Exit" Background="#FFD7EFE6" Height="35" Margin="151,5,247,10" Click="AddLocBtn_Click" />
+            <Button x:Name="AddAnotherLocBtn" Background="#FFD7EFE6" Content="Save and Add Another" Width="240" Height="35" Margin="325,5,-15,10" Click="AddLocBtn_Click" />
         </Grid>
     </StackPanel>
 </Window>

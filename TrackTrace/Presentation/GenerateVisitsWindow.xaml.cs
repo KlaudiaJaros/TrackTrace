@@ -18,27 +18,36 @@ using TrackTrace.Data;
 namespace TrackTrace.Presentation
 {
     /// <summary>
-    /// Interaction logic for GenerateVisitsWindow.xaml
+    /// Interaction logic for GenerateVisitsWindow.xaml. The window displays an interactive form where the user can search through locations 
+    /// and generate a list of users who visited a given location between choosen dates and times. The list can be exported to a file.
+    /// Created by: Klaudia Jaros
+    /// Last modified: 04/12/2020
     /// </summary>
     public partial class GenerateVisitsWindow : Window
     {
-        private List<Location> locations = new List<Location>();
-        private List<String> results = new List<String>();
+        private MainWindow mainMenu;
+        private List<Location> _locations = new List<Location>(); // store all locations from the data layer
+        private List<User> _userResults = new List<User>(); // store search results
         
 
-        private MainWindow mainMenu;
         public GenerateVisitsWindow()
         {
             InitializeComponent();
-            locations = DataFacade.GetLocations();
 
+            // get all locations from the data layer:
+            _locations = DataFacade.GetLocations();
+
+            // set-up DatePickers:
             toDate.Value = DateTime.Now;
             toDate.Maximum = fromDate.Maximum = DateTime.Now;
             toDate.ClipValueToMinMax = true;
             fromDate.ClipValueToMinMax = true;
-
         }
-
+        /// <summary>
+        /// Returns to Main Window.
+        /// </summary>
+        /// <param name="sender">'Return' button</param>
+        /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             mainMenu = new MainWindow();
@@ -46,30 +55,45 @@ namespace TrackTrace.Presentation
             this.Close();
         }
 
+        /// <summary>
+        /// Displays all locations that are in the system in the location list control.
+        /// </summary>
+        /// <param name="sender">'Show all' button</param>
+        /// <param name="e"></param>
         private void ShowAllLocationsBtn_Click(object sender, RoutedEventArgs e)
         {
             userInput.Text = "";
-            locationsList.ItemsSource = locations;
+            locationsList.ItemsSource = _locations;
         }
 
+        /// <summary>
+        /// Clears the form for a new search.
+        /// </summary>
+        /// <param name="sender">'Clear' button</param>
+        /// <param name="e"></param>
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             fromDate.Value = null;
             toDate.Value = null;
             locationsList.ItemsSource = null;
             userInput.Text = "";
-            results.Clear();
+            _userResults.Clear();
             resultsList.ItemsSource = null;
-
         }
 
+        /// <summary>
+        /// Allows a user to search for a specific location. If the post-code search radio button is checked, it searches by a post-code, if the name button is checked,
+        /// it searches by the location's name.
+        /// </summary>
+        /// <param name="sender">'Search' button</param>
+        /// <param name="e"></param>
         private void SearchLocationsBtn_Click(object sender, RoutedEventArgs e)
         {
-            List<Location> locationResults = new List<Location>();
+            List<Location> locationResults = new List<Location>(); // store location search results
 
             if (postcodeSearchBtn.IsChecked==true)
             {
-                foreach (Location l in locations)
+                foreach (Location l in _locations)
                 {
                     if (l.PostCode.Equals(userInput.Text))
                     {
@@ -79,7 +103,7 @@ namespace TrackTrace.Presentation
             }
             else if (nameSearchBtn.IsChecked == true)
             {
-                foreach (Location l in locations)
+                foreach (Location l in _locations)
                 {
                     if (l.Name.ToLower().Contains(userInput.Text.ToLower()))
                     {
@@ -94,10 +118,16 @@ namespace TrackTrace.Presentation
             locationsList.ItemsSource = locationResults;
         }
 
+        /// <summary>
+        /// Displays all users that were recorded in the specified location between specified date and time.
+        /// </summary>
+        /// <param name="sender">'Show results' button</param>
+        /// <param name="e"></param>
         private void ShowResultsBtn_Click(object sender, RoutedEventArgs e)
         {
+            // clear previous results:
             resultsList.ItemsSource = null;
-            results.Clear();
+            _userResults.Clear();
 
             if (fromDate.Value == null || toDate.Value == null)
             {
@@ -109,42 +139,34 @@ namespace TrackTrace.Presentation
             }
             else
             {
+                // get location object selected by the user:
                 Location location = (Location)locationsList.SelectedItem;
-                List<User> users = new List<User>();
-                users = DataFacade.GetUsersByLocationAndDate(location.GetId(), (DateTime)fromDate.Value, (DateTime)toDate.Value);
 
-                foreach(User u in users)
-                {
-                    string record = "User: " + u.GetId() + ", phone number: " + u.GetPhoneNo() + " " + u.GetFirstName() + " " + u.GetLastName();
-                    results.Add(record);
-                }
-                resultsList.ItemsSource = results;
+                // get all users that match the search:
+                _userResults = DataFacade.GetUsersByLocationAndDate(location.ID, (DateTime)fromDate.Value, (DateTime)toDate.Value);
+                resultsList.ItemsSource = _userResults; // display results;
             }
         }
 
-        private void postcodeSearchBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            userInput.Text = "";
-        }
-
-        private void nameSearchBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            userInput.Text = "";
-        }
-
-        private void fromDate_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-
-        }
-
+        /// <summary>
+        /// Ensures that the "from date" cannot be set later than the "to date". "From date" should always be earlier than "to date".
+        /// </summary>
+        /// <param name="sender">User changed "to date" value.</param>
+        /// <param name="e"></param>
         private void toDate_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             fromDate.Value = null;
             fromDate.Maximum = toDate.Value;
         }
 
+        /// <summary>
+        /// Exports the results into a CSV file and let's the user choose where to save it. 
+        /// </summary>
+        /// <param name="sender">'Export to a file' button</param>
+        /// <param name="e"></param>
         private void ExportToFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            // set-up a file dialog to save the results:
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Filter = "cvs files (*.csv)|*.csv|All files (*.*)|*.*";
@@ -153,17 +175,29 @@ namespace TrackTrace.Presentation
 
             if (saveFileDialog.ShowDialog() == true)
             {
+                // save the results to a file in a choosen directory with a choosen name:
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog.FileName))
                 {
                     string header = "User, contact number, (optional) name:";
                     file.WriteLine(header);
                     
-                    foreach (String s in results)
+                    foreach (User u in _userResults)
                     {
-                        file.WriteLine(s);
+                        file.WriteLine(u.ToString());
                     }
                 }
             }
+        }
+
+        // methods below reset the user input field if the search parameters change:
+        private void postcodeSearchBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            userInput.Text = "";
+        }
+
+        private void nameSearchBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            userInput.Text = "";
         }
     }
 }

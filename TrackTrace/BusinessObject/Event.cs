@@ -6,31 +6,48 @@ using System.Threading.Tasks;
 
 namespace TrackTrace.BusinessObject
 {
+    /// <summary>
+    /// Stores information about an event: id and datetime.
+    /// Created by: Klaudia Jaros
+    /// Last modified: 04/12/2020
+    /// </summary>
     public class Event
     {
-        private long id;
-        private DateTime dateTime;
+        private long _id;
+        private DateTime _dateTime;
 
-        public long GetId()
+        public long ID
         {
-            return id;
+            get
+            {
+                return _id;
+
+            }
+            set
+            {
+                _id = value;
+            }
         }
-        public void SetId(long i)
+        public DateTime DateAndTime
         {
-            this.id = i;
+            get
+            {
+                return _dateTime;
+
+            }
+            set
+            {
+                _dateTime = value;
+            }
         }
-        public DateTime GetDateTime()
-        {
-            return dateTime;
-        }
-        public void SetDateTime(DateTime? d)
-        {
-            DateTime date = (DateTime)d;
-            this.dateTime = date;
-        }
+
+        /// <summary>
+        /// Converts an Event object into a comma separated values string to make it easier to save the stored properties in a CSV file.
+        /// </summary>
+        /// <returns>CSV string of all properites stored.</returns>
         public virtual string ToCSV()
         {
-            return this.id + "," + this.dateTime;
+            return _id + "," + _dateTime;
         }
     }
 }

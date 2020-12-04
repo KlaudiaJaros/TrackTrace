@@ -18,22 +18,34 @@ using TrackTrace.Data;
 namespace TrackTrace.Presentation
 {
     /// <summary>
-    /// Interaction logic for GenerateContactsWindow.xaml
+    /// Interaction logic for GenerateContactsWindow.xaml. The window displays an interactive form where the user can search through contacts 
+    /// and generate a list of users who were in contact with a given user after a specified time. The list can be exported to a file.
+    /// Created by: Klaudia Jaros
+    /// Last modified: 04/12/2020
     /// </summary>
     public partial class GenerateContactsWindow : Window
     {
         private MainWindow mainMenu;
-        private List<User> users = new List<User>();
-        private List<String> results = new List<String>();
+        private List<User> _users = new List<User>(); // to store all users from the data layer
+        private List<User> _userResults = new List<User>(); // to store contacts search results
 
         public GenerateContactsWindow()
         {
             InitializeComponent();
-            users = DataFacade.GetUsers();
+            
+            // get all users from the data layer:
+            _users = DataFacade.GetUsers();
+
+            // set-up DateTime picker:
             datePicker.Maximum = DateTime.Now;
             datePicker.ClipValueToMinMax = true;
         }
 
+        /// <summary>
+        /// Returns to Main Window.
+        /// </summary>
+        /// <param name="sender">'Return' button</param>
+        /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             mainMenu = new MainWindow();
@@ -41,44 +53,60 @@ namespace TrackTrace.Presentation
             this.Close();
         }
 
+        /// <summary>
+        /// Displays all users saved in the system.
+        /// </summary>
+        /// <param name="sender">'Show all' button</param>
+        /// <param name="e"></param>
         private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
         {
             userInput.Text = "";
-            usersList.ItemsSource = users;
+            usersList.ItemsSource = _users;
         }
 
+        /// <summary>
+        /// Clears the form for the next search
+        /// </summary>
+        /// <param name="sender">'Clear' button</param>
+        /// <param name="e"></param>
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             usersList.ItemsSource = "";
             resultsList.ItemsSource = "";
             datePicker.Value = null;
             userInput.Text = "";
-            results.Clear();
+            _userResults.Clear();
         }
 
+        /// <summary>
+        /// Allows a user to search for a specific user, if search by id button is checked it searches by id, if search by last name button is checked, it searches by last name.
+        /// </summary>
+        /// <param name="sender">'Search' button</param>
+        /// <param name="e"></param>
         private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
         {
-            List<User> userResults = new List<User>();
+            // search for a user that other users were in contact with:
+            List<User> foundUsers = new List<User>();
 
             if (idSearchBtn.IsChecked == true)
             {
-                foreach (User u in users)
+                foreach (User u in _users)
                 {
-                    int id = 0;
-                    Int32.TryParse(userInput.Text, out id);
-                    if (u.GetId() == id)
+                    long id;
+                    long.TryParse(userInput.Text, out id);
+                    if (u.ID == id)
                     {
-                        userResults.Add(u);
+                        foundUsers.Add(u);
                     }
                 }
             }
             else if (lastNameSearchBtn.IsChecked == true)
             {
-                foreach (User u in users)
+                foreach (User u in _users)
                 {
-                    if (u.GetLastName().ToLower().Contains(userInput.Text.ToLower()))
+                    if (u.LastName.ToLower().Contains(userInput.Text.ToLower()))
                     {
-                        userResults.Add(u);
+                        foundUsers.Add(u);
                     }
                 }
             }
@@ -86,23 +114,19 @@ namespace TrackTrace.Presentation
             {
                 MessageBox.Show("Please choose if you wish to search by user's id or last name.");
             }
-            usersList.ItemsSource = userResults;
+            usersList.ItemsSource = foundUsers;
         }
 
-        private void idSearchBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            userInput.Text = "";
-        }
 
-        private void lastNameSearchBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            userInput.Text = "";
-        }
-
+        /// <summary>
+        /// Displays all users that were in contact with a specified user after a choosen date and time.
+        /// </summary>
+        /// <param name="sender">'Show results' button</param>
+        /// <param name="e"></param>
         private void ShowResultsBtn_Click(object sender, RoutedEventArgs e)
         {
             resultsList.ItemsSource = null;
-            results.Clear();
+            _userResults.Clear();
 
             if (datePicker.Value == null)
             {
@@ -114,21 +138,23 @@ namespace TrackTrace.Presentation
             }
             else
             {
+                // get the User object choosen by the user:
                 User user = (User)usersList.SelectedItem;
-                List<User> users = new List<User>();
-                users = DataFacade.GetUsersByContactAndDate(user.GetId(), (DateTime)datePicker.Value);
 
-                foreach(User u in users)
-                {
-                    string record = "User: " + u.GetId() + ", phone number: " + u.GetPhoneNo() + " " + u.GetFirstName() + " " + u.GetLastName();
-                    results.Add(record);
-                }
-                resultsList.ItemsSource = results;
+                // find all users that match the search:
+                _userResults = DataFacade.GetUsersByContactAndDate(user.ID, (DateTime)datePicker.Value);
+                resultsList.ItemsSource = _userResults; // display
             }
         }
 
+        /// <summary>
+        /// Exports the results into a CSV file and let's the user choose where to save it. 
+        /// </summary>
+        /// <param name="sender">'Export to a file' button</param>
+        /// <param name="e"></param>
         private void ExportToFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            // set-up a file dialog to save the results:
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Filter = "cvs files (*.csv)|*.csv|All files (*.*)|*.*";
@@ -137,17 +163,29 @@ namespace TrackTrace.Presentation
 
             if (saveFileDialog.ShowDialog() == true)
             {
+                // save results to a file using the choosen direcotry and file name:
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog.FileName))
                 {
                     string header = "User, contact number, (optional) name:";
                     file.WriteLine(header);
 
-                    foreach (String s in results)
+                    foreach (User u in _userResults)
                     {
-                        file.WriteLine(s);
+                        file.WriteLine(u.ToString());
                     }
                 }
             }
+        }
+
+        // methods below reset the user input field if the search parameters change:
+        private void idSearchBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            userInput.Text = "";
+        }
+
+        private void lastNameSearchBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            userInput.Text = "";
         }
     }
 }

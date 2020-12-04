@@ -17,7 +17,9 @@ using TrackTrace.Data;
 namespace TrackTrace.Presentation
 {
     /// <summary>
-    /// Interaction logic for AddLocationWindow.xaml
+    /// Interaction logic for AddLocationWindow.xaml. It diplays a form to add a new location and after input validation adds a new location to the system.
+    /// Created by: Klaudia Jaros   
+    /// Last modified: 04/12/2020
     /// </summary>
     public partial class AddLocationWindow : Window
     {
@@ -27,6 +29,11 @@ namespace TrackTrace.Presentation
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Returns to Main Window.
+        /// </summary>
+        /// <param name="sender">'Return' button.</param>
+        /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
             mainMenu = new MainWindow();
@@ -34,6 +41,11 @@ namespace TrackTrace.Presentation
             this.Close();
         }
 
+        /// <summary>
+        /// Event handler for Save Location buttons. If ValidateInput returns true, the new location is added.
+        /// </summary>
+        /// <param name="sender">Either 'Save and Exit' or 'Save and Add Another' button.</param>
+        /// <param name="e"></param>
         private void AddLocBtn_Click(object sender, RoutedEventArgs e)
         {
             if(ValidateInput())
@@ -46,23 +58,17 @@ namespace TrackTrace.Presentation
                 DataFacade.SaveLocation(loc);
 
                 MessageBox.Show("Location(s) successfully added.");
-                mainMenu = new MainWindow();
-                mainMenu.Show();
-                this.Close();
-            }
-        }
 
-        private void AddAnotherLocBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if(ValidateInput())
-            {
-                Location loc = new Location();
-                loc.Name = locNameBox.Text;
-                loc.Address = locAddressBox.Text;
-                loc.PostCode = locPostCodeBox.Text;
-                loc.Town = locTownBox.Text;
-                DataFacade.SaveLocation(loc);
+                // check if 'Save and Exit' button called this method, if yes, exit:
+                Button btn = (Button)sender;
+                if (btn.Name.Equals("AddLocExitBtn"))
+                {
+                    mainMenu = new MainWindow();
+                    mainMenu.Show();
+                    this.Close();
+                }
 
+                // clear TextBoxes for adding a new location:
                 locNameBox.Text = "";
                 locAddressBox.Text = "";
                 locPostCodeBox.Text = "";
@@ -79,8 +85,8 @@ namespace TrackTrace.Presentation
         {
             bool isValid = true;
 
-            // 
-            if (locNameBox.Text == "" || locNameBox.Text.Length>70)
+            // check each field for the correct length, no commas and if empty:
+            if (locNameBox.Text == "" || locNameBox.Text.Length>70 || locNameBox.Text.Contains(","))
             {
                 isValid = false;
                 MessageBox.Show("Please provide location's name. Max 70 characters.");
@@ -90,13 +96,13 @@ namespace TrackTrace.Presentation
                 isValid = false;
                 MessageBox.Show("Please provide location's address. Max 70 characters.");
             }
-            if (locPostCodeBox.Text == "" || !(locPostCodeBox.Text.Length >=6 && locPostCodeBox.Text.Length<=8))
+            if (locPostCodeBox.Text == "" || locPostCodeBox.Text.Contains(",") || !(locPostCodeBox.Text.Length >=6 && locPostCodeBox.Text.Length<=8))
             {
                 isValid = false;
                 MessageBox.Show("Please provide a valid post code.");
             }
  
-            if (locTownBox.Text == "" || locTownBox.Text.Length>35)
+            if (locTownBox.Text == "" || locTownBox.Text.Length>35 || locTownBox.Text.Contains(","))
             {
                 isValid = false;
                 MessageBox.Show("Please provide location's town. Max 35 characters.");
@@ -106,28 +112,29 @@ namespace TrackTrace.Presentation
             return isValid;
         }
 
-        private void NameImg_MouseEnter(object sender, MouseEventArgs e)
+        // help hints for the user when they hoover over a help image:
+        private void NameHelpImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
             tp.Content = "Location's name. Max 70 characters.";
             NameImg.ToolTip = tp;
         }
 
-        private void AddImg_MouseEnter(object sender, MouseEventArgs e)
+        private void AddressHelpImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
             tp.Content = "Location's address. Max 70 characters, commas are not allowed.";
             AddImg.ToolTip = tp;
         }
 
-        private void PcImg_MouseEnter(object sender, MouseEventArgs e)
+        private void PostCodeHelpImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
             tp.Content = "Location's post code. UK post code: between 6-8 characters.";
             PcImg.ToolTip = tp;
         }
 
-        private void TownImg_MouseEnter(object sender, MouseEventArgs e)
+        private void TownHelpImg_MouseEnter(object sender, MouseEventArgs e)
         {
             ToolTip tp = new ToolTip();
             tp.Content = "Location's town/city. Max 35 characters.";

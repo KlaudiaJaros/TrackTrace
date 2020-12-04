@@ -17,13 +17,18 @@ using TrackTrace.Data;
 namespace TrackTrace.Presentation
 {
     /// <summary>
-    /// Interaction logic for RecordEventsWindow.xaml
+    /// Interaction logic for RecordEventsWindow.xaml. Displays an interactive form to record events for users both contacts and visits. It allows the
+    /// user to search for users and locations logged in the system in order to record an event. 
+    /// Created by: Klaudia Jaros   
+    /// Last modified: 04/12/2020
     /// </summary>
     public partial class RecordEventsWindow : Window
     {
         // to store loaded data for the purpose of this window:
         private List<User> users = new List<User>();
         private List<Location> locations = new List<Location>();
+
+        // navigation:
         private MainWindow mainMenu;
         private AddUserWindow addUserWindow;
         private AddLocationWindow addLocationWindow;
@@ -37,7 +42,6 @@ namespace TrackTrace.Presentation
             visitsAndContacts.Content = recordVisitsBtn;
             visitsAndContacts.Content = recordContactsBtn;
             
-
             GroupBox userNameID = new GroupBox();
             userNameID.Content = UserLNSearchBtn;
             userNameID.Content = UserIDSearchBtn;
@@ -98,21 +102,20 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void SaveExitBtn_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: save event 
             if (ValidateInput())
             {
                 User selectedUser = (User)usersList.SelectedItem;
                 if (recordContactsBtn.IsChecked == true)
                 {
                     User contactUser = (User)resultsList.SelectedItem;
-                    if (selectedUser.GetId() == contactUser.GetId())
+                    if (selectedUser.ID == contactUser.ID)
                     {
                         MessageBox.Show("Please select two different users.");
                     }
                     else
                     {
                         Contact saveContact = new Contact();
-                        saveContact.SetDateTime(DateTimePickCtr.Value);
+                        saveContact.DateAndTime = (DateTime)DateTimePickCtr.Value;
                         saveContact.User1 = selectedUser;
                         saveContact.User2 = contactUser;
 
@@ -124,7 +127,7 @@ namespace TrackTrace.Presentation
                 {
                     Location visitLocation = (Location)resultsList.SelectedItem;
                     Visit saveVisit = new Visit();
-                    saveVisit.SetDateTime(DateTimePickCtr.Value);
+                    saveVisit.DateAndTime = (DateTime)DateTimePickCtr.Value;
                     saveVisit.User = selectedUser;
                     saveVisit.Location = visitLocation;
 
@@ -178,7 +181,7 @@ namespace TrackTrace.Presentation
                 {
                     int id = 0;
                     Int32.TryParse(search, out id);
-                    if (u.GetId() == id)
+                    if (u.ID == id)
                     {
                         results.Add(u);
                     }
@@ -188,7 +191,7 @@ namespace TrackTrace.Presentation
             {
                 foreach (User u in users)
                 {
-                    if (u.GetLastName().ToLower().Contains(search.ToLower()))
+                    if (u.LastName.ToLower().Contains(search.ToLower()))
                     {
                         results.Add(u);
                     }
@@ -402,6 +405,34 @@ namespace TrackTrace.Presentation
 
             resultsList.ItemsSource = null; // clear the results list
         }
+
+        /// <summary>
+        /// Displays currently selected user for whom the event is about the be added.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void usersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (usersList.SelectedItem != null)
+            {
+                selectedUserDisplay.Text = (usersList.SelectedItem).ToString();
+            }           
+        }
+
+        /// <summary>
+        /// Displays currently selected user (if recording contacts) or location (if recording visits)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void resultsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (resultsList.SelectedItem != null)
+            {
+                selectedItemDisplay.Text = (resultsList.SelectedItem).ToString();
+            }       
+        }
+
+        // radio buttons event handlers to ensure that if one is checked, the other is unchecked:
         private void UserLNSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             UserIDSearchBtn.IsChecked = false;
@@ -430,22 +461,6 @@ namespace TrackTrace.Presentation
         private void ContactNameSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             ContactIDSearchBtn.IsChecked = false;
-        }
-
-        private void usersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (usersList.SelectedItem != null)
-            {
-                selectedUserDisplay.Text = (usersList.SelectedItem).ToString();
-            }           
-        }
-
-        private void resultsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (resultsList.SelectedItem != null)
-            {
-                selectedItemDisplay.Text = (resultsList.SelectedItem).ToString();
-            }       
         }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Record Events" Height="879.66" Width="1284.291" FontSize="19" Left="100" Top="100" Icon="TrackTrace.ico">
     <Grid>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="125" Stroke="Black" VerticalAlignment="Top" Width="953" Margin="148,93,0,0"/>
+        <Rectangle Fill="#FFD7EFE6" HorizontalAlignment="Left" Height="125" Stroke="Black" VerticalAlignment="Top" Width="953" Margin="148,93,0,0"/>
         <TextBlock HorizontalAlignment="Left" FontSize="35" Margin="313,27,0,0" Text="Record Visits and Contacts for Users" VerticalAlignment="Top"/>
         <TextBlock  HorizontalAlignment="Left" Margin="31,238,0,0" Text="Choose a user you would like to record events for:" VerticalAlignment="Top" Width="499" Height="36"/>
         <TextBlock HorizontalAlignment="Left" Margin="198,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="When did this event occur? Select time and date:" Width="519"/>

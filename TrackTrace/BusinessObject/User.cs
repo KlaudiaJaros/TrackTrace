@@ -6,59 +6,90 @@ using System.Threading.Tasks;
 
 namespace TrackTrace.BusinessObject
 {
+    /// <summary>
+    /// A User class that stores information about a user: id, phone number and firstname and lastname (if provided).
+    /// Created by: Klaudia Jaros
+    /// Last modified: 04/12/2020
+    /// </summary>
     public class User
     {
-        private long id;
-        private string firstName;
-        private string lastName;
-        private string phoneNo;
+        private long _id;
+        private string _firstName;
+        private string _lastName;
+        private string _phoneNo;
 
-        public long GetId()
+        public long ID
         {
-            return id;
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
         }
-        public string GetPhoneNo()
+        public string PhoneNumber
         {
-            return phoneNo;
+            get
+            {
+                return _phoneNo;
+            }
+            set
+            {
+                _phoneNo = value;
+            }
         }
-        public string GetFirstName()
+        public string FirstName
         {
-            return firstName;
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                _firstName = value;
+            }
         }
-        public string GetLastName()
+        public string LastName
         {
-            return lastName;
+            get
+            {
+                return _lastName;
+            }
+            set
+            {
+                _lastName = value;
+            }
         }
-        public void SetFirstName(string fn)
+        public string FullName
         {
-            this.firstName = fn;
+            get
+            {
+                return _firstName + " " + _lastName;
+            }
         }
-        public void SetLastName(string ln)
-        {
-            this.lastName = ln;
-        }
-        public void SetId(long i)
-        {
-            this.id = i;
-        }
-        public void SetPhoneNo(string p)
-        {
-            this.phoneNo = p;
-        }
+
+        /// <summary>
+        /// Converts User object into a comma separated values string to make it easier to save the stored properties in a CSV file.
+        /// </summary>
+        /// <returns>CSV string of all properites stored.</returns>
         public string ToCSV()
         {
-            return this.id + "," + this.phoneNo + "," + this.firstName + "," + this.lastName;
+            return _id + "," + _phoneNo + "," + _firstName + "," + _lastName;
         }
+
         public override string ToString()
         {
-            if (this.firstName.Equals("") && this.lastName.Equals(""))
+            // if first name and last name are null, print just their user id and phone number:
+            if (_firstName.Equals("") && _lastName.Equals(""))
             {
-                return "User: " + this.id;
+                return "User: " + _id + ", tel: " + PhoneNumber;
             }
             else
             {
-                string fullname = this.firstName + " " + this.lastName;
-                return "User: " + this.id + ", " + fullname;
+                // else, print their name/fullname too:
+                return "User: " + _id + ", tel: " + PhoneNumber + " " + FullName;
             }
         }
     }
