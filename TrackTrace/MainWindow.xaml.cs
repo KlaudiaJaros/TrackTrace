@@ -17,53 +17,58 @@ using TrackTrace.Presentation;
 namespace TrackTrace
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml. Displays the main menu for the application.
+    /// Created by: Klaudia Jaros
+    /// Last modified: 06/12/2020
     /// </summary>
     public partial class MainWindow : Window
     {
-        private AddUserWindow addUserWindow;
-        private AddLocationWindow addLocationWindow;
-        private RecordEventsWindow recordEventsWindow;
-        private GenerateVisitsWindow getVisitsWindow;
-        private GenerateContactsWindow getContactsWindow;
+        // navigation windows:
+        private AddUserWindow _addUserWindow;
+        private AddLocationWindow _addLocationWindow;
+        private RecordEventsWindow _recordEventsWindow;
+        private GenerateVisitsWindow _getVisitsWindow;
+        private GenerateContactsWindow _getContactsWindow;
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        // depending on which button the user chooses, the apropriate window will open:
+
         private void AddUserBtn_Click(object sender, RoutedEventArgs e)
         {
-            addUserWindow = new AddUserWindow();
-            addUserWindow.Show();
+            _addUserWindow = new AddUserWindow();
+            _addUserWindow.Show();
             this.Close();
         }
 
         private void AddLocationBtn_Click(object sender, RoutedEventArgs e)
         {
-            addLocationWindow = new AddLocationWindow();
-            addLocationWindow.Show();
+            _addLocationWindow = new AddLocationWindow();
+            _addLocationWindow.Show();
             this.Close();
         }
 
         private void RecordEventsBtn_Click(object sender, RoutedEventArgs e)
         {
-            recordEventsWindow = new RecordEventsWindow();
-            recordEventsWindow.Show();
+            _recordEventsWindow = new RecordEventsWindow();
+            _recordEventsWindow.Show();
             this.Close();
         }
 
         private void SearchContactsBtn_Click(object sender, RoutedEventArgs e)
         {
-            getContactsWindow = new GenerateContactsWindow();
-            getContactsWindow.Show();
+            _getContactsWindow = new GenerateContactsWindow();
+            _getContactsWindow.Show();
             this.Close();
         }
 
         private void SearchLocationBtn_Click(object sender, RoutedEventArgs e)
         {
-            getVisitsWindow = new GenerateVisitsWindow();
-            getVisitsWindow.Show();
+            _getVisitsWindow = new GenerateVisitsWindow();
+            _getVisitsWindow.Show();
             this.Close();
         }
     }

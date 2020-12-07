@@ -23,7 +23,7 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class AddUserWindow : Window
     {
-        private MainWindow mainMenu;
+        private MainWindow _mainMenu;
         public AddUserWindow()
         {
             InitializeComponent();
@@ -36,8 +36,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            mainMenu = new MainWindow();
-            mainMenu.Show();
+            _mainMenu = new MainWindow();
+            _mainMenu.Show();
             this.Close();
         }
 
@@ -62,8 +62,8 @@ namespace TrackTrace.Presentation
                 Button btn = (Button)sender;
                 if (btn.Name.Equals("AddUserExitBtn"))
                 {
-                    mainMenu = new MainWindow();
-                    mainMenu.Show();
+                    _mainMenu = new MainWindow();
+                    _mainMenu.Show();
                     this.Close();
                 }
 

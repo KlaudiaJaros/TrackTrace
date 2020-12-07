@@ -25,7 +25,7 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class GenerateVisitsWindow : Window
     {
-        private MainWindow mainMenu;
+        private MainWindow _mainMenu;
         private List<Location> _locations = new List<Location>(); // store all locations from the data layer
         private List<User> _userResults = new List<User>(); // store search results
         
@@ -50,8 +50,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            mainMenu = new MainWindow();
-            mainMenu.Show();
+            _mainMenu = new MainWindow();
+            _mainMenu.Show();
             this.Close();
         }
 
@@ -95,7 +95,7 @@ namespace TrackTrace.Presentation
             {
                 foreach (Location l in _locations)
                 {
-                    if (l.PostCode.Equals(userInput.Text))
+                    if (l.PostCode.ToLower().Equals(userInput.Text.ToLower())) // case insensitive search
                     {
                         locationResults.Add(l);
                     }
@@ -105,7 +105,7 @@ namespace TrackTrace.Presentation
             {
                 foreach (Location l in _locations)
                 {
-                    if (l.Name.ToLower().Contains(userInput.Text.ToLower()))
+                    if (l.Name.ToLower().Contains(userInput.Text.ToLower())) // case insensitive search
                     {
                         locationResults.Add(l);
                     }

@@ -13,39 +13,39 @@ namespace TrackTrace.Data
     /// </summary>
     class UserDataSingleton
     {
-        private const string fileName = "UsersData.csv"; // constant file name
-        private static long userId; // to keep track of ids
-        private static UserDataSingleton userDataSystem; // instance of this singleton
+        private const string _fileName = "UsersData.csv"; // constant file name
+        private static long _userId; // to keep track of ids
+        private static UserDataSingleton _userDataSystem; // instance of this singleton
 
         private UserDataSingleton() { } // private constructor
 
         /// <summary>
-        /// Returns the only instance of UserDataSingleton.
+        /// Returns the only instance of UserDataSingleton. Static, because it has to be accessible without initialising the object.
         /// </summary>
         public static UserDataSingleton UserDataInstance
         {
             get
             {
-                if (userDataSystem == null)
+                if (_userDataSystem == null)
                 {
-                    userDataSystem = new UserDataSingleton(); // initialise the singleton if accessed for the first time
+                    _userDataSystem = new UserDataSingleton(); // initialise the singleton if accessed for the first time
                 }
-                return userDataSystem;
+                return _userDataSystem;
             }
         }
         /// <summary>
-        /// Updates the id based on the CSV file to ensure the correctness of ids after the application closes.
+        /// Updates the id based on the CSV file to ensure the correctness of id after the application closes.
         /// </summary>
         private void UpdateId()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             if (File.Exists(path))
             {
                 var lastLine = File.ReadLines(path).Last();
                 string[] separated = lastLine.Split(',');
                 try
                 {
-                    userId = long.Parse(separated[0]) + 1;
+                    _userId = long.Parse(separated[0]) + 1; // get the last id and increment it
                 }
                 catch (Exception e)
                 {
@@ -54,7 +54,7 @@ namespace TrackTrace.Data
             }
             else
             {
-                userId = 1;
+                _userId = 1;
             }
         }
 
@@ -65,20 +65,20 @@ namespace TrackTrace.Data
         public void SaveUser(User user)
         {
             UpdateId();
-            user.ID=userId; // assign a new id
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            user.ID=_userId; // assign a new id
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             File.AppendAllText(path, user.ToCSV() + '\n'); // save
-            userId++;
+            _userId++;
         }
 
         /// <summary>
         /// Returns all Users stored in the CSV file.
         /// </summary>
         /// <returns>A list of all users currently stored in the data layer.</returns>
-        public List<User> GetUsers()
+        public Dictionary<long, User> GetUsers()
         {
-            List<User> users = new List<User>();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            Dictionary<long, User> users = new Dictionary<long, User>();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
             // if the file exists, read all lines, separated each line by a comma:
             if (File.Exists(path))
@@ -90,14 +90,13 @@ namespace TrackTrace.Data
                     // create a User instance based on the given line:
                     User u = new User();
                     string[] separated = line.Split(',');
-                    long id = 0;
-                    long.TryParse(separated[0], out id);
+                    long.TryParse(separated[0], out long id);
                     u.ID=id;
                     u.PhoneNumber=separated[1];
                     u.FirstName=separated[2];
                     u.LastName=separated[3];
                     
-                    users.Add(u); // save
+                    users.Add(id,u); // save
                 }
             }
             return users;

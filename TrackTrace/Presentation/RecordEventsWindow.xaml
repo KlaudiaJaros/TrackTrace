@@ -48,8 +48,8 @@
 
 
         <Button x:Name="ReturnBtn" Content="Return" HorizontalAlignment="Left" Margin="172,776,0,0" VerticalAlignment="Top" Width="105" Height="40" Click="ReturnBtn_Click"/>
-        <Button x:Name="SaveExitBtn" Background="#FFD7EFE6" Content="Save Event and Exit" HorizontalAlignment="Left" Margin="412,776,0,0" VerticalAlignment="Top" Width="197" Height="40" Click="SaveExitBtn_Click"/>
-        <Button x:Name="AddAnotherBtn" Background="#FFD7EFE6" Content="Save Event and Add Another" HorizontalAlignment="Left" Margin="753,776,0,0" VerticalAlignment="Top" Width="324" Height="40" Click="AddAnotherBtn_Click"/>
+        <Button x:Name="SaveExitBtn" Background="#FFD7EFE6" Content="Save Event and Exit" HorizontalAlignment="Left" Margin="412,776,0,0" VerticalAlignment="Top" Width="197" Height="40" Click="SaveBtn_Click"/>
+        <Button x:Name="AddAnotherBtn" Background="#FFD7EFE6" Content="Save Event and Add Another" HorizontalAlignment="Left" Margin="753,776,0,0" VerticalAlignment="Top" Width="324" Height="40" Click="SaveBtn_Click"/>
         <Button x:Name="ShowAllUsersBtn" Content="Show All" HorizontalAlignment="Left" Margin="412,334,0,0" VerticalAlignment="Top" Width="100" Height="33" Click="ShowAllUsersBtn_Click"/>
         <Button x:Name="ShowAllBtn" Content="Show All" HorizontalAlignment="Left" Margin="1034,334,0,0" VerticalAlignment="Top" Width="102" Height="33" Click="ShowAllBtn_Click"/>
         <TextBox x:Name="selectedUserDisplay" HorizontalAlignment="Left" Height="33" Margin="31,644,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="524"/>

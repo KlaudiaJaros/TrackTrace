@@ -15,24 +15,24 @@ namespace TrackTrace.Data
     /// </summary>
     class EventDataSingleton
     {
-        private const string fileName = "EventData.csv"; // a constant file name where the event data is held
-        private static long eventId; // to keep track of ids
-        private static EventDataSingleton eventDataSystem; // singleton instance
+        private const string _fileName = "EventData.csv"; // a constant file name where the event data is held
+        private static long _eventId; // to keep track of ids
+        private static EventDataSingleton _eventDataSystem; // singleton instance
 
         private EventDataSingleton() { } // private constructor
 
         /// <summary>
-        /// Retrieves the only EventDataSingleton instance:
+        /// Retrieves the only EventDataSingleton instance. Static, because it has to be accessible without initialising the object.
         /// </summary>
         public static EventDataSingleton EventDataInstance
         {
             get
             {
-                if (eventDataSystem == null)
+                if (_eventDataSystem == null)
                 {
-                    eventDataSystem = new EventDataSingleton(); // initialise the singleton if accessed for the first time
+                    _eventDataSystem = new EventDataSingleton(); // initialise the singleton if accessed for the first time
                 }
-                return eventDataSystem;
+                return _eventDataSystem;
             }
         }
 
@@ -41,14 +41,14 @@ namespace TrackTrace.Data
         /// </summary>
         private void UpdateId()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             if (File.Exists(path))
             {
-                var lastLine = File.ReadLines(path).Last();
+                var lastLine = File.ReadLines(path).Last(); // get the last line in the CSV file(last record)
                 string[] separated = lastLine.Split(',');
                 try
                 {
-                    eventId = long.Parse(separated[1]) + 1;
+                    _eventId = long.Parse(separated[1]) + 1; // get the last id and increment it
                 }
                 catch (Exception e)
                 {
@@ -57,19 +57,20 @@ namespace TrackTrace.Data
             }
             else
             {
-                eventId = 1;
+                _eventId = 1;
             }
         }
 
         /// <summary>
-        /// Saves the given event to a CSV file.
+        /// Saves the given event to a CSV file. It adds a code at the beginning of the line. 'V' for Visits, 'C' for contacts to make it easier
+        /// to recognise events when retrieving event data.
         /// </summary>
         /// <param name="newEvent">An Event to be saved.</param>
         public void SaveEvent(Event newEvent)
         {
             UpdateId(); // refresh id count
-            newEvent.ID = eventId; // assign an id
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            newEvent.ID = _eventId; // assign an id
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
             // create a string to save:
             string eventCSV = "";
@@ -86,7 +87,7 @@ namespace TrackTrace.Data
 
             // save Event:
             File.AppendAllText(path, eventCSV + '\n');
-            eventId++;
+            _eventId++;
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace TrackTrace.Data
         public List<User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
         {
             List<User> users = new List<User>();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
             // if the file exists, get all lines and separate each line by a comma:
             if (File.Exists(path))
@@ -115,8 +116,7 @@ namespace TrackTrace.Data
                     if (type == 'V') // V for Visit:
                     {
                         DateTime date = DateTime.Parse(separated[2]); // get the time and date
-                        long recordLocationId = 0;
-                        long.TryParse(separated[7], out recordLocationId); // get the id
+                        long.TryParse(separated[7], out long recordLocationId); // get the id
 
                         // check if the record is between the desired dates and it is the right id:
                         if (date > fromDate && date < toDate && recordLocationId == locationId)
@@ -147,7 +147,7 @@ namespace TrackTrace.Data
         public List<User> GetUsersByContactAndDate(long userId, DateTime dateTime)
         {
             List<User> users = new List<User>();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             if (File.Exists(path))
             {
                 // loop trough all the lines and separate them by a comma:
@@ -163,10 +163,8 @@ namespace TrackTrace.Data
                     {
                         DateTime date = DateTime.Parse(separated[2]); // get the date and time
 
-                        long user1Id = 0;
-                        long.TryParse(separated[3], out user1Id); // get user1 id
-                        long user2Id = 0;
-                        long.TryParse(separated[7], out user2Id); // get user2 id
+                        long.TryParse(separated[3], out long user1Id); // get user1 id
+                        long.TryParse(separated[7], out long user2Id); // get user2 id
 
                         // check if the record is after the given date and the user match:
                         if (date > dateTime && userId == user1Id) // check the first user
@@ -200,8 +198,8 @@ namespace TrackTrace.Data
         /// <returns>A list of all events currently stored.</returns>
         public List<Event> GetEvents()
         {
-            List<Event> events = new List<Event>(); // to save the event
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            List<Event> events = new List<Event>(); // to save the events
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             Event getEvent = new Event();
 
             if (File.Exists(path))
@@ -212,17 +210,15 @@ namespace TrackTrace.Data
                 {
                     string[] separated = line.Split(','); // separate each line in the file using commas
 
-                    // shared Event properties:
+                    // get the shared Event properties and save them:
                     char type = separated[0].ElementAt(0);
-                    long id = 0;                    
-                    long.TryParse(separated[1], out id);
+                    long.TryParse(separated[1], out long id);
                     getEvent.ID=id;
                     getEvent.DateAndTime=DateTime.Parse(separated[2]);
 
-                    // the first user for both Contact and Visit events:
+                    // get the first User for both Contact and Visit events:
                     User user1 = new User();
-                    long userId = 0;
-                    long.TryParse(separated[3], out userId);
+                    long.TryParse(separated[3], out long userId);
                     user1.ID=userId;
                     user1.PhoneNumber=separated[4];
                     user1.FirstName=separated[5];
@@ -237,8 +233,7 @@ namespace TrackTrace.Data
 
                         // get the second user for Contact and save it:
                         User user2 = new User();
-                        long user2Id = 0;
-                        long.TryParse(separated[7], out user2Id);
+                        long.TryParse(separated[7], out long user2Id);
                         user2.ID=user2Id;
                         user2.PhoneNumber=separated[8];
                         user2.FirstName=separated[9];
@@ -254,8 +249,7 @@ namespace TrackTrace.Data
 
                         // get the location for Visit and save it:
                         Location location = new Location();
-                        long locId = 0;
-                        long.TryParse(separated[7], out locId);
+                        long.TryParse(separated[7], out long locId);
                         location.ID=locId;
                         location.Name = separated[8];
                         location.Address = separated[9];

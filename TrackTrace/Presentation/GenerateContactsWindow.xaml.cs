@@ -25,8 +25,8 @@ namespace TrackTrace.Presentation
     /// </summary>
     public partial class GenerateContactsWindow : Window
     {
-        private MainWindow mainMenu;
-        private List<User> _users = new List<User>(); // to store all users from the data layer
+        private MainWindow _mainMenu;
+        private Dictionary<long, User> _users = new Dictionary<long, User>(); // to store all users from the data layer
         private List<User> _userResults = new List<User>(); // to store contacts search results
 
         public GenerateContactsWindow()
@@ -40,6 +40,7 @@ namespace TrackTrace.Presentation
             datePicker.Maximum = DateTime.Now;
             datePicker.ClipValueToMinMax = true;
         }
+        // TODO: get rid of double results 
 
         /// <summary>
         /// Returns to Main Window.
@@ -48,8 +49,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            mainMenu = new MainWindow();
-            mainMenu.Show();
+            _mainMenu = new MainWindow();
+            _mainMenu.Show();
             this.Close();
         }
 
@@ -86,27 +87,21 @@ namespace TrackTrace.Presentation
         private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
         {
             // search for a user that other users were in contact with:
-            List<User> foundUsers = new List<User>();
+            Dictionary<long,User> foundUsers = new Dictionary<long, User>();
 
             if (idSearchBtn.IsChecked == true)
             {
-                foreach (User u in _users)
-                {
-                    long id;
-                    long.TryParse(userInput.Text, out id);
-                    if (u.ID == id)
-                    {
-                        foundUsers.Add(u);
-                    }
-                }
+                long.TryParse(userInput.Text, out long id);
+                _users.TryGetValue(id, out User findUser); // TryGet because if such user doesn't exist, it throws and error
+                foundUsers.Add(id,findUser);
             }
             else if (lastNameSearchBtn.IsChecked == true)
             {
-                foreach (User u in _users)
+                foreach (KeyValuePair<long,User> u in _users)
                 {
-                    if (u.LastName.ToLower().Contains(userInput.Text.ToLower()))
+                    if (u.Value.LastName.ToLower().Contains(userInput.Text.ToLower()))
                     {
-                        foundUsers.Add(u);
+                        foundUsers.Add(u.Key,u.Value);
                     }
                 }
             }
@@ -139,7 +134,7 @@ namespace TrackTrace.Presentation
             else
             {
                 // get the User object choosen by the user:
-                User user = (User)usersList.SelectedItem;
+                User user = (User)((KeyValuePair<long, User>)usersList.SelectedItem).Value; // user selection is a KeyValuePair
 
                 // find all users that match the search:
                 _userResults = DataFacade.GetUsersByContactAndDate(user.ID, (DateTime)datePicker.Value);

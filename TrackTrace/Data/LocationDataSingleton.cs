@@ -15,40 +15,40 @@ namespace TrackTrace.Data
     /// </summary>
     class LocationDataSingleton
     {
-        private const string fileName = "LocationData.csv"; // constant file name where the locations are being saved
-        private static long locationId; // to keep track of ids
-        private static LocationDataSingleton locationDataSystem; // singleton instance
+        private const string _fileName = "LocationData.csv"; // constant file name where the locations are being saved
+        private static long _locationId; // to keep track of ids
+        private static LocationDataSingleton _locationDataSystem; // singleton instance
 
         private LocationDataSingleton() { } // private constructor
 
         /// <summary>
-        /// Retrieves LocationDataSingleton instance
+        /// Retrieves LocationDataSingleton instance. Static, because it has to be accessible without initialising the object.
         /// </summary>
         public static LocationDataSingleton LocationDataInstance 
         {
             get
             {
-                if (locationDataSystem == null)
+                if (_locationDataSystem == null)
                 {
-                    locationDataSystem = new LocationDataSingleton(); // initialise the singleton if accessed for the first time
+                    _locationDataSystem = new LocationDataSingleton(); // initialise the singleton if accessed for the first time
                 }
-                return locationDataSystem;
+                return _locationDataSystem;
             }
         }
 
         /// <summary>
-        /// Updates the ID based on the CSV file to ensure the correctness of ids after the application closes.
+        /// Updates the ID based on the CSV file to ensure the correctness of id after the application closes.
         /// </summary>
         private void UpdateId()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             if (File.Exists(path))
             {
-                var lastLine = File.ReadLines(path).Last();
+                var lastLine = File.ReadLines(path).Last(); // get the last line in the CSV file (last record)
                 string[] separated = lastLine.Split(',');
                 try
                 {
-                    locationId = long.Parse(separated[0]) + 1;
+                    _locationId = long.Parse(separated[0]) + 1; // get the last id and increment it
                 }
                 catch (Exception e)
                 {
@@ -57,7 +57,7 @@ namespace TrackTrace.Data
             }
             else
             {
-                locationId = 1;
+                _locationId = 1;
             }
         }
 
@@ -68,10 +68,10 @@ namespace TrackTrace.Data
         public void SaveLocation(Location location)
         {
             UpdateId(); // update the id
-            location.ID=locationId; // assign a new id
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            location.ID=_locationId; // assign a new id
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
             File.AppendAllText(path, location.ToCSV() + '\n'); // save 
-            locationId++;
+            _locationId++;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace TrackTrace.Data
         public List<Location> GetLocations()
         {
             List<Location> locations = new List<Location>();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
             // if the file exists, read all lines, separate each line by a comma:
             if (File.Exists(path))
@@ -93,8 +93,7 @@ namespace TrackTrace.Data
                     // create a location object based on the given line:
                     Location location = new Location();
                     string[] separated = line.Split(',');
-                    long id = 0;
-                    long.TryParse(separated[0], out id);
+                    long.TryParse(separated[0], out long id);
                     location.ID=id;
                     location.Name = separated[1];
                     location.Address = separated[2];

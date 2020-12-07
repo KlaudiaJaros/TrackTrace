@@ -25,13 +25,13 @@ namespace TrackTrace.Presentation
     public partial class RecordEventsWindow : Window
     {
         // to store loaded data for the purpose of this window:
-        private List<User> users = new List<User>();
-        private List<Location> locations = new List<Location>();
+        private Dictionary<long,User> _users = new Dictionary<long, User>();
+        private List<Location> _locations = new List<Location>();
 
         // navigation:
-        private MainWindow mainMenu;
-        private AddUserWindow addUserWindow;
-        private AddLocationWindow addLocationWindow;
+        private MainWindow _mainMenu;
+        private AddUserWindow _addUserWindow;
+        private AddLocationWindow _addLocationWindow;
 
         public RecordEventsWindow()
         {
@@ -52,7 +52,7 @@ namespace TrackTrace.Presentation
             locationContacts.Content = LocNameSearchBtn;
             locationContacts.Content = PostCodeSearchBtn;
 
-            // ensure the user can only select one result at a time:
+            // ensure the user can only select one User or one User/Location from the lists at a time:
             usersList.SelectionMode = SelectionMode.Single;
             resultsList.SelectionMode = SelectionMode.Single;
 
@@ -68,8 +68,8 @@ namespace TrackTrace.Presentation
         /// </summary>
         private void LoadData()
         {
-            locations = DataFacade.GetLocations();
-            users = DataFacade.GetUsers();
+            _locations = DataFacade.GetLocations();
+            _users = DataFacade.GetUsers();
         }
         /// <summary>
         /// Checks if the user provided all the information needed to save an Event. If not, it shows a MessageBox informing what's wrong.
@@ -96,18 +96,18 @@ namespace TrackTrace.Presentation
             return valid;    
         }
         /// <summary>
-        /// Event handler for 'Save Event and Exit' button. The function saves the Event and returns to MainWindow.
+        /// Event handler for 'Save Event and Exit' or "Save and Add another" button. The function saves the Event and either returns to MainWindow or clear the form for the next record.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveExitBtn_Click(object sender, RoutedEventArgs e)
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateInput())
             {
-                User selectedUser = (User)usersList.SelectedItem;
+                User selectedUser = (User)((KeyValuePair<long, User>)usersList.SelectedItem).Value; // user selection is a KeyValuePair, get the Value and cast it into a User
                 if (recordContactsBtn.IsChecked == true)
                 {
-                    User contactUser = (User)resultsList.SelectedItem;
+                    User contactUser = (User)((KeyValuePair<long,User>)resultsList.SelectedItem).Value;
                     if (selectedUser.ID == contactUser.ID)
                     {
                         MessageBox.Show("Please select two different users.");
@@ -125,7 +125,7 @@ namespace TrackTrace.Presentation
                 }
                 else if (recordVisitsBtn.IsChecked == true)
                 {
-                    Location visitLocation = (Location)resultsList.SelectedItem;
+                    Location visitLocation = (Location)resultsList.SelectedItem; // cast the selected item into a Location object
                     Visit saveVisit = new Visit();
                     saveVisit.DateAndTime = (DateTime)DateTimePickCtr.Value;
                     saveVisit.User = selectedUser;
@@ -140,60 +140,47 @@ namespace TrackTrace.Presentation
                 Button b = (Button)sender;
                 if (b.Name == "SaveExitBtn")
                 {
-                    mainMenu = new MainWindow();
-                    mainMenu.Show();
+                    _mainMenu = new MainWindow();
+                    _mainMenu.Show();
                     this.Close();
                 }
-            }
-        }
-        /// <summary>
-        /// Event handler for 'Save Event and Add another' button. The function saves the event and clears the form so the user can add another event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddAnotherBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SaveExitBtn_Click(sender, e);
-            DateTimePickCtr.Value=DateTime.Now;
-            usersList.SelectedItem = null;
-            resultsList.SelectedItem = null;
-            selectedItemDisplay.Text = "";
-            selectedUserDisplay.Text = "";
-            userInput.Text = "";
-            userInput2.Text = "";
 
+                // if not, clear the form:
+                DateTimePickCtr.Value = DateTime.Now;
+                usersList.SelectedItem = null;
+                resultsList.SelectedItem = null;
+                selectedItemDisplay.Text = "";
+                selectedUserDisplay.Text = "";
+                userInput.Text = "";
+                userInput2.Text = "";
+            }
         }
 
         /// <summary>
         /// Searches through the list of users and returns all that match the user input string.
         /// </summary>
         /// <param name="byID">Boolean to deduct if the method should search by user's id or not. If not, the default is to search by user's last name.</param>
-        /// <param name="userInput">User's input.</param>
-        /// <returns>A list off all users that match the provided string.</returns>
-        public List<User> SearchUsers(bool byID, string userInput)
+        /// <param name="userInput">User's input. Either a number (if id search) or a last name.</param>
+        /// <returns>A list off all users that match the given string.</returns>
+        public Dictionary<long, User> SearchUsers(bool byID, string userInput)
         {
             string search = userInput;
-            List<User> results = new List<User>();
+            Dictionary<long,User> results = new Dictionary<long, User>();
 
             if (byID)
             {
-                foreach (User u in users)
-                {
-                    int id = 0;
-                    Int32.TryParse(search, out id);
-                    if (u.ID == id)
-                    {
-                        results.Add(u);
-                    }
-                }
+                long id = 0;
+                long.TryParse(search, out id); // parse id to long
+                _users.TryGetValue(id, out User u); // check if it's in the dictionary
+                results.Add(id, u);
             }
             else 
-            {
-                foreach (User u in users)
+            {               
+                foreach (KeyValuePair<long,User> u in _users) // loop through the dictionary of users
                 {
-                    if (u.LastName.ToLower().Contains(search.ToLower()))
+                    if (u.Value.LastName.ToLower().Contains(search.ToLower())) // case insensitive search
                     {
-                        results.Add(u);
+                        results.Add(u.Key,u.Value); // Add(u);
                     }
                 }
             }
@@ -211,9 +198,9 @@ namespace TrackTrace.Presentation
 
             if (byPostCode)
             {
-                foreach(Location l in locations)
+                foreach(Location l in _locations)
                 {
-                    if (l.PostCode.ToLower().Equals(userInput.ToLower()))
+                    if (l.PostCode.ToLower().Equals(userInput.ToLower())) // case insensitive search
                     {
                         results.Add(l);
                     }
@@ -221,9 +208,9 @@ namespace TrackTrace.Presentation
             }
             else
             {
-                foreach(Location l in locations)
+                foreach(Location l in _locations)
                 {
-                    if (l.Name.ToLower().Contains(userInput.ToLower()))
+                    if (l.Name.ToLower().Contains(userInput.ToLower())) // case insensitive search
                     {
                         results.Add(l);
                     }
@@ -238,8 +225,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void AddUserBtn_Click(object sender, RoutedEventArgs e)
         {
-            addUserWindow = new AddUserWindow();
-            addUserWindow.Show();
+            _addUserWindow = new AddUserWindow();
+            _addUserWindow.Show();
             this.Close();
         }
 
@@ -250,15 +237,15 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void AddLocBtn_Click(object sender, RoutedEventArgs e)
         {
-            addLocationWindow = new AddLocationWindow();
-            addLocationWindow.Show();
+            _addLocationWindow = new AddLocationWindow();
+            _addLocationWindow.Show();
             this.Close();
         }
 
         /// <summary>
-        /// Search button event handler for the first listbox. The user can search for users.
+        /// Search button event handler for the first listbox. The user can search for users either by ID or last name by checking the right radio button.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">'Search' button</param>
         /// <param name="e"></param>
         private void SearchUsersBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -318,7 +305,7 @@ namespace TrackTrace.Presentation
         private void ShowAllUsersBtn_Click(object sender, RoutedEventArgs e)
         {
             userInput.Text = "";
-            usersList.ItemsSource = users;
+            usersList.ItemsSource = _users;
         }
 
         /// <summary>
@@ -337,13 +324,13 @@ namespace TrackTrace.Presentation
             {
                 // show users:
                 warningText.Visibility = Visibility.Hidden;
-                resultsList.ItemsSource = users;
+                resultsList.ItemsSource = _users;
             }
             else if (recordVisitsBtn.IsChecked == true && recordContactsBtn.IsChecked == false)
             {
                 // show locations:
                 warningText.Visibility = Visibility.Hidden;
-                resultsList.ItemsSource = locations;           
+                resultsList.ItemsSource = _locations;           
             }
         }
         /// <summary>
@@ -365,8 +352,8 @@ namespace TrackTrace.Presentation
         /// <param name="e"></param>
         private void ReturnBtn_Click(object sender, RoutedEventArgs e)
         {
-            mainMenu = new MainWindow();
-            mainMenu.Show();
+            _mainMenu = new MainWindow();
+            _mainMenu.Show();
             this.Close();
         }
 
