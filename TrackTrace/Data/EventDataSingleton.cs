@@ -11,7 +11,7 @@ namespace TrackTrace.Data
     /// <summary>
     /// Singleton for saving and retrieving Events data, both Contacts and Visits.
     /// Created by: Klaudia Jaros
-    /// Last modified: 04/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     class EventDataSingleton
     {
@@ -96,10 +96,10 @@ namespace TrackTrace.Data
         /// <param name="locationId">ID of a location to search</param>
         /// <param name="fromDate">Start date</param>
         /// <param name="toDate">End date</param>
-        /// <returns></returns>
-        public List<User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
+        /// <returns>A dictionary of all users that matched the search.</returns>
+        public Dictionary<long,User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
         {
-            List<User> users = new List<User>();
+            Dictionary<long,User> users = new Dictionary<long, User>(); // store results
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
             // if the file exists, get all lines and separate each line by a comma:
@@ -129,12 +129,16 @@ namespace TrackTrace.Data
                             user.PhoneNumber=separated[4];
                             user.FirstName=separated[5];
                             user.LastName=separated[6];
-                            
-                            users.Add(user); // save
+
+                            try // there will be repeated users, trycatch block to prevent the error
+                            {
+                                users.Add(user.ID, user); // save
+                            }
+                            catch { }
                         }
                     }
                 }
-            }
+            }        
             return users;
         }
 
@@ -143,11 +147,12 @@ namespace TrackTrace.Data
         /// </summary>
         /// <param name="userId">The user id who people were in contact with</param>
         /// <param name="dateTime">After the date</param>
-        /// <returns></returns>
-        public List<User> GetUsersByContactAndDate(long userId, DateTime dateTime)
+        /// <returns>A dictionary of all users that matched the search.</returns>
+        public Dictionary<long,User> GetUsersByContactAndDate(long userId, DateTime dateTime)
         {
-            List<User> users = new List<User>();
+            Dictionary<long,User> users = new Dictionary<long, User>(); // to store results
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
+
             if (File.Exists(path))
             {
                 // loop trough all the lines and separate them by a comma:
@@ -174,8 +179,12 @@ namespace TrackTrace.Data
                             user2.PhoneNumber=separated[8];
                             user2.FirstName=separated[9];
                             user2.LastName=separated[10];
-                            
-                            users.Add(user2);
+
+                            try // try catch to prevent errors if there are multiple the same users 
+                            {
+                                users.Add(user2.ID, user2);
+                            }
+                            catch { }
                         }
                         else if (date > dateTime && userId == user2Id) // check the second user
                         {
@@ -183,15 +192,20 @@ namespace TrackTrace.Data
                             user1.ID=user1Id;
                             user1.PhoneNumber=separated[4];
                             user1.FirstName=separated[5];
-                            user1.LastName=separated[6];           
+                            user1.LastName=separated[6];
 
-                            users.Add(user1);
+                            try // try catch to prevent errors if there are multiple the same users 
+                            {
+                                users.Add(user1.ID,user1);
+                            }
+                            catch { }
                         }
                     }
                 }
             }
             return users;
         }
+
         /// <summary>
         /// Get all events that are saved in the data layer.
         /// </summary>

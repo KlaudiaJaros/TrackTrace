@@ -22,12 +22,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Track and Trace" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="32" FontWeight="SemiBold"  Width="280" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBlock Text="Add records:" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom"  />
-        <TextBlock Text="Record events:" Grid.Row="1" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <TextBlock Text="Search records:" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        <TextBlock Text="Welcome to Track and Trace" Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Center" FontSize="32" FontWeight="SemiBold"   Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBlock Text="Create users and locations:" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Bottom"  />
+        <TextBlock Text="Record events:" Grid.Row="1" Grid.ColumnSpan="2" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="82,20,62,13" />
+        <TextBlock Text="Search records:" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" FontSize="23" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
 
-
+        <Image x:Name="helpEventsImg" MaxWidth="30" Source="Presentation/question-mark-circle-icon.png" RenderTransformOrigin="3.895,1.632" Grid.Column="3" Margin="116,25,6,11" Grid.Row="1" MouseEnter="helpEventsImg_MouseEnter" />
         <Button x:Name="AddUserBtn" Content="Add a new user" Background="#FFD7EFE6"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddUserBtn_Click" />
         <Button x:Name="AddLocationBtn" Content="Add a location" Background="#FFD7EFE6" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="AddLocationBtn_Click" />
         <Button x:Name="RecordEventsBtn" Background="#FFD7EFE6" Content="Record events"  Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="40,20,40,10" Click="RecordEventsBtn_Click" />

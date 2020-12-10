@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace TrackTrace.Data
     /// Data Layer Facade. It connects all Data Layer Subsytems: User, Location and Event Singletons. It is a static class and can be called 
     /// by any other class within the project to save/retrieve objects.
     /// Created by: Klaudia Jaros
-    /// Last modified: 06/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public static class DataFacade
     {
@@ -70,9 +71,9 @@ namespace TrackTrace.Data
         /// <param name="fromDate">From-date</param>
         /// <param name="toDate">To-date</param>
         /// <returns>A list of Users that visited a given location.</returns>
-        public static List<User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
+        public static Dictionary<long,User> GetUsersByLocationAndDate(long locationId, DateTime fromDate, DateTime toDate)
         {
-            List<User> users = _eventSystem.GetUsersByLocationAndDate(locationId, fromDate, toDate);
+            Dictionary<long,User> users = _eventSystem.GetUsersByLocationAndDate(locationId, fromDate, toDate);
             return users;
         }
         /// <summary>
@@ -81,10 +82,46 @@ namespace TrackTrace.Data
         /// <param name="userId">User's ID</param>
         /// <param name="dateTime">After-date</param>
         /// <returns>A list of all users that were in contact with the given User.</returns>
-        public static List<User> GetUsersByContactAndDate(long userId, DateTime dateTime)
+        public static Dictionary<long,User> GetUsersByContactAndDate(long userId, DateTime dateTime)
         {
-            List<User> users = _eventSystem.GetUsersByContactAndDate(userId, dateTime);
+            Dictionary<long,User> users = _eventSystem.GetUsersByContactAndDate(userId, dateTime);
             return users;
+        }
+
+        /// <summary>
+        /// Saves the new default user in a CSV file.
+        /// </summary>
+        /// <param name="u">User to be set as default.</param>
+        public static void SetDefaultUser(User u)
+        {
+            // save the default user in a file so it doesn't dissapear when you reopen the app:
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "defaultUserInfo.csv");
+            File.WriteAllText(path, u.ToCSV());
+        }
+
+        /// <summary>
+        /// Retrieves the default user from a file or returns null if one does not exist.
+        /// </summary>
+        /// <returns>Default user or null</returns>
+        public static User GetDefaultUser()
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "defaultUserInfo.csv");
+
+            if (File.Exists(path)) // if the file exists, retrieve the user:
+            {
+                string[] lines = File.ReadAllLines(path);
+                string[] separatedLines = lines[0].Split(',');
+
+                User defaultUser = new User();
+                long.TryParse(separatedLines[0], out long id);
+                defaultUser.ID = id;
+                defaultUser.PhoneNumber = separatedLines[1];
+                defaultUser.FirstName = separatedLines[2];
+                defaultUser.LastName = separatedLines[3];
+
+                return defaultUser;
+            }
+            return null;
         }
     }
 }

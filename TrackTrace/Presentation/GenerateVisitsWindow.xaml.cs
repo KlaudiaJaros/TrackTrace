@@ -21,13 +21,13 @@ namespace TrackTrace.Presentation
     /// Interaction logic for GenerateVisitsWindow.xaml. The window displays an interactive form where the user can search through locations 
     /// and generate a list of users who visited a given location between choosen dates and times. The list can be exported to a file.
     /// Created by: Klaudia Jaros
-    /// Last modified: 04/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public partial class GenerateVisitsWindow : Window
     {
         private MainWindow _mainMenu;
         private List<Location> _locations = new List<Location>(); // store all locations from the data layer
-        private List<User> _userResults = new List<User>(); // store search results
+        private Dictionary<long,User> _userResults = new Dictionary<long, User>(); // store search results
         
 
         public GenerateVisitsWindow()
@@ -91,7 +91,7 @@ namespace TrackTrace.Presentation
         {
             List<Location> locationResults = new List<Location>(); // store location search results
 
-            if (postcodeSearchBtn.IsChecked==true)
+            if (postcodeSearchBtn.IsChecked==true) // search by post-code
             {
                 foreach (Location l in _locations)
                 {
@@ -101,7 +101,7 @@ namespace TrackTrace.Presentation
                     }
                 }
             }
-            else if (nameSearchBtn.IsChecked == true)
+            else if (nameSearchBtn.IsChecked == true) // seacrh by location's name
             {
                 foreach (Location l in _locations)
                 {
@@ -181,9 +181,9 @@ namespace TrackTrace.Presentation
                     string header = "User, contact number, (optional) name:";
                     file.WriteLine(header);
                     
-                    foreach (User u in _userResults)
+                    foreach (KeyValuePair<long,User> u in _userResults)
                     {
-                        file.WriteLine(u.ToString());
+                        file.WriteLine(u.Value.ToString());
                     }
                 }
             }

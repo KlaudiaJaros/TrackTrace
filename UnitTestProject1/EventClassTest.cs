@@ -1,14 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TrackTrace.BusinessObject;
 
-namespace TrackTrace.BusinessObject
+namespace UnitTestProject1
 {
     [TestClass]
-    class EventTestClass
+    public class EventClassTest
     {
         [TestMethod]
         public void SetId_SetsCorrectId()
@@ -18,7 +15,7 @@ namespace TrackTrace.BusinessObject
             Event eventTest = new Event();
 
             // act:
-            eventTest.ID=id;
+            eventTest.ID = id;
             long actualID = eventTest.ID;
 
             // assert:
@@ -31,7 +28,7 @@ namespace TrackTrace.BusinessObject
             // arrange:
             long id = 222;
             Event eventTest = new Event();
-            eventTest.ID=id;
+            eventTest.ID = id;
 
             // act:
             long actualID = eventTest.ID;
@@ -40,41 +37,54 @@ namespace TrackTrace.BusinessObject
             Assert.AreEqual(id, actualID, 0, "ID get method failed.");
         }
 
-
-
         [TestMethod]
-        public void CorrectDateTimeIsHeld()
+        public void SetDT_SetsCorrectDateTime()
         {
             // arrange:
             DateTime date = new DateTime(2020, 11, 25, 12, 20, 00);
             Event eventTest = new Event();
 
             // act:
-            eventTest.DateAndTime=date;
+            eventTest.DateAndTime = date;
             DateTime actualDate = eventTest.DateAndTime;
 
             // assert:
-            Assert.AreEqual(date, actualDate, "DateTime set and/or get failed.");
+            Assert.AreEqual(date, actualDate, "DateTime set method failed.");
         }
 
         [TestMethod]
-        public void ConvertToCSVTest()
+        public void GetDT_GetsCorrectDateTime()
+        {
+            // arrange:
+            DateTime date = new DateTime(2020, 11, 25, 12, 20, 00);
+            Event eventTest = new Event();
+            eventTest.DateAndTime = date;
+
+            // act:
+            DateTime actualDate = eventTest.DateAndTime;
+
+            // assert:
+            Assert.AreEqual(date, actualDate, "DateTime get method failed.");
+        }
+
+        [TestMethod]
+        public void ToCSV_ConvertsCorrectly()
         {
             // arrange:
             long id = 20;
             DateTime date = new DateTime(2020, 11, 25, 15, 15, 00);
-            
-            Event eventTest = new Event();
-            eventTest.ID=id;
-            eventTest.DateAndTime=date;
 
-            string expectedCSV = id.ToString() +"," + date.ToString();
+            Event eventTest = new Event();
+            eventTest.ID = id;
+            eventTest.DateAndTime = date;
+
+            string expectedCSV = id.ToString() + "," + date.ToString();
 
             // act:
             string actualCSV = eventTest.ToCSV();
 
             // assert:
-            Assert.IsTrue(expectedCSV.Equals(actualCSV),"CSV conversion failed.");
+            Assert.IsTrue(expectedCSV.Equals(actualCSV), "CSV conversion failed.");
         }
     }
 }

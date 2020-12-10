@@ -13,19 +13,7 @@ namespace TrackTrace.BusinessObject
     /// </summary>
     public class Location
     {
-        private long _id;
-        public long ID
-        {
-            get
-            {
-                return _id;
-
-            }
-            set
-            {
-                _id = value;
-            }
-        }
+        public long ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
@@ -33,7 +21,7 @@ namespace TrackTrace.BusinessObject
 
         public override string ToString()
         {
-            return "Location: " + _id + ", name: " + Name + ", address: " + Address + ", " + PostCode + ", " + Town;
+            return "Location: " + ID + ", name: " + Name + ", address: " + Address + ", " + PostCode + ", " + Town;
         }
 
         /// <summary>
@@ -42,7 +30,7 @@ namespace TrackTrace.BusinessObject
         /// <returns>CSV string of all properites stored.</returns>
         public string ToCSV()
         {
-            return _id + "," + Name + "," + Address + "," + PostCode + "," + Town;
+            return ID + "," + Name + "," + Address + "," + PostCode + "," + Town;
         }
     }
 }

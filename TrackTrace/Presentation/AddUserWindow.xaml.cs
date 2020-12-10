@@ -19,7 +19,7 @@ namespace TrackTrace.Presentation
     /// <summary>
     /// Interaction logic for AddUserWindow.xaml. It displays a form to add a new user and after validating the input it adds a new user to the system.
     /// Created by: Klaudia Jaros   
-    /// Last modified: 04/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public partial class AddUserWindow : Window
     {
@@ -58,6 +58,11 @@ namespace TrackTrace.Presentation
 
                 MessageBox.Show("User successfully added with a user id: " + newUser.ID + ". \nPlease save it for future reference.");
 
+                if (yesBtn.IsChecked == true) // set the user as default if requested by the user
+                {
+                    DataFacade.SetDefaultUser(newUser);
+                }
+
                 // check if the 'Save and Exit' button called this method, if yes, exit:
                 Button btn = (Button)sender;
                 if (btn.Name.Equals("AddUserExitBtn"))
@@ -89,12 +94,11 @@ namespace TrackTrace.Presentation
                 isValid = false;
                 MessageBox.Show("Please provide a valid first name or leave the field empty.");
             }
-            if (lastNameBox.Text.Length>70 || firstNameBox.Text.Contains(","))
+            if (lastNameBox.Text.Length > 70 || firstNameBox.Text.Contains(","))
             {
                 isValid = false;
                 MessageBox.Show("Please provide a valid last name or leave the field empty.");
             }
-
             // check phone number if numeric and the correct length:
             bool isNumeric = true;
             foreach(char c in phoneNoBox.Text)
@@ -109,6 +113,11 @@ namespace TrackTrace.Presentation
             {
                 isValid = false;
                 MessageBox.Show("Please provide a valid phone number.");
+            }
+            else if (noBtn.IsChecked == false && yesBtn.IsChecked == false)
+            {
+                MessageBox.Show("Please indicate if the user you are adding should be set as the default user.");
+                isValid = false;
             }
 
             return isValid;
@@ -134,6 +143,13 @@ namespace TrackTrace.Presentation
             ToolTip tp = new ToolTip();
             tp.Content = "Optional field. User's last name. Max 70 characters.";
             lnImg.ToolTip = tp;
+        }
+
+        private void defaultImg_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ToolTip tp = new ToolTip();
+            tp.Content = "Default user to save events for.";
+            defaultImg.ToolTip = tp;
         }
     }
 }

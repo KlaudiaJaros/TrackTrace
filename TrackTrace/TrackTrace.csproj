@@ -86,7 +86,6 @@
     </Compile>
     <Compile Include="BusinessObject\Contact.cs" />
     <Compile Include="BusinessObject\Event.cs" />
-    <Compile Include="BusinessObject\EventTestClass.cs" />
     <Compile Include="BusinessObject\Location.cs" />
     <Compile Include="BusinessObject\User.cs" />
     <Compile Include="BusinessObject\Visit.cs" />
@@ -118,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\SwitchUsersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Presentation\AddLocationWindow.xaml.cs">
@@ -134,6 +137,9 @@
     </Compile>
     <Compile Include="Presentation\RecordEventsWindow.xaml.cs">
       <DependentUpon>RecordEventsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\SwitchUsersWindow.xaml.cs">
+      <DependentUpon>SwitchUsersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

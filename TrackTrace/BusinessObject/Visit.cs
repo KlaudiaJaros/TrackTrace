@@ -8,7 +8,7 @@ using System.Xaml.Schema;
 namespace TrackTrace.BusinessObject
 {
     /// <summary>
-    /// Stores information about a visit i.e. the User involved and the Location. It inherits from the Event class. 
+    /// Stores information about a visit: the User involved and the Location. It inherits from the Event class. 
     /// Created by: Klaudia Jaros
     /// Last modified: 04/12/2020
     /// </summary>

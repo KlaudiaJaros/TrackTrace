@@ -19,14 +19,14 @@ namespace TrackTrace
     /// <summary>
     /// Interaction logic for MainWindow.xaml. Displays the main menu for the application.
     /// Created by: Klaudia Jaros
-    /// Last modified: 06/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public partial class MainWindow : Window
     {
         // navigation windows:
         private AddUserWindow _addUserWindow;
         private AddLocationWindow _addLocationWindow;
-        private RecordEventsWindow _recordEventsWindow;
+        private RecordEventsWindow _recordEventWindow;
         private GenerateVisitsWindow _getVisitsWindow;
         private GenerateContactsWindow _getContactsWindow;
 
@@ -53,8 +53,8 @@ namespace TrackTrace
 
         private void RecordEventsBtn_Click(object sender, RoutedEventArgs e)
         {
-            _recordEventsWindow = new RecordEventsWindow();
-            _recordEventsWindow.Show();
+            _recordEventWindow = new RecordEventsWindow();
+            _recordEventWindow.Show();
             this.Close();
         }
 
@@ -70,6 +70,13 @@ namespace TrackTrace
             _getVisitsWindow = new GenerateVisitsWindow();
             _getVisitsWindow.Show();
             this.Close();
+        }
+
+        private void helpEventsImg_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ToolTip tp = new ToolTip();
+            tp.Content = "Record visits to different locations or contacts with other users";
+            helpEventsImg.ToolTip = tp;
         }
     }
 }

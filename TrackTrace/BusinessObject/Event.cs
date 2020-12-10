@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TrackTrace.BusinessObject
 {
     /// <summary>
-    /// Stores information about an event: id and datetime.
+    /// Stores information about an event: its id and datetime.
     /// Created by: Klaudia Jaros
     /// Last modified: 04/12/2020
     /// </summary>

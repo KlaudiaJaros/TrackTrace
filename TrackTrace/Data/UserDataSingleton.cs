@@ -10,6 +10,8 @@ namespace TrackTrace.Data
 {
     /// <summary>
     /// A UserData Singleton to save and retrieve User objects.
+    /// Created by: Klaudia Jaros
+    /// Last modified: 09/12/2020
     /// </summary>
     class UserDataSingleton
     {

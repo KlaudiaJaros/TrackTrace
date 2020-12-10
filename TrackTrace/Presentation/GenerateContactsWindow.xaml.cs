@@ -21,13 +21,13 @@ namespace TrackTrace.Presentation
     /// Interaction logic for GenerateContactsWindow.xaml. The window displays an interactive form where the user can search through contacts 
     /// and generate a list of users who were in contact with a given user after a specified time. The list can be exported to a file.
     /// Created by: Klaudia Jaros
-    /// Last modified: 04/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public partial class GenerateContactsWindow : Window
     {
         private MainWindow _mainMenu;
         private Dictionary<long, User> _users = new Dictionary<long, User>(); // to store all users from the data layer
-        private List<User> _userResults = new List<User>(); // to store contacts search results
+        private Dictionary<long,User> _userResults = new Dictionary<long, User>(); // to store contacts search results
 
         public GenerateContactsWindow()
         {
@@ -35,12 +35,16 @@ namespace TrackTrace.Presentation
             
             // get all users from the data layer:
             _users = DataFacade.GetUsers();
+            User selectedUser = DataFacade.GetDefaultUser();
+            if (selectedUser!= null)
+            {
+                selectedUserBox.Text = selectedUser.ToString();
+            }
 
             // set-up DateTime picker:
             datePicker.Maximum = DateTime.Now;
             datePicker.ClipValueToMinMax = true;
         }
-        // TODO: get rid of double results 
 
         /// <summary>
         /// Returns to Main Window.
@@ -89,17 +93,17 @@ namespace TrackTrace.Presentation
             // search for a user that other users were in contact with:
             Dictionary<long,User> foundUsers = new Dictionary<long, User>();
 
-            if (idSearchBtn.IsChecked == true)
+            if (idSearchBtn.IsChecked == true) //  search using ID
             {
                 long.TryParse(userInput.Text, out long id);
                 _users.TryGetValue(id, out User findUser); // TryGet because if such user doesn't exist, it throws and error
                 foundUsers.Add(id,findUser);
             }
-            else if (lastNameSearchBtn.IsChecked == true)
+            else if (lastNameSearchBtn.IsChecked == true) // search using last name
             {
                 foreach (KeyValuePair<long,User> u in _users)
                 {
-                    if (u.Value.LastName.ToLower().Contains(userInput.Text.ToLower()))
+                    if (u.Value.LastName.ToLower().Contains(userInput.Text.ToLower())) // case insensitive search
                     {
                         foundUsers.Add(u.Key,u.Value);
                     }
@@ -109,9 +113,8 @@ namespace TrackTrace.Presentation
             {
                 MessageBox.Show("Please choose if you wish to search by user's id or last name.");
             }
-            usersList.ItemsSource = foundUsers;
+            usersList.ItemsSource = foundUsers; // display
         }
-
 
         /// <summary>
         /// Displays all users that were in contact with a specified user after a choosen date and time.
@@ -127,17 +130,24 @@ namespace TrackTrace.Presentation
             {
                 MessageBox.Show("Please select date and time.");
             }
-            else if (usersList.SelectedItem == null)
+            else if (usersList.SelectedItem == null && selectedUserBox.Equals(""))
             {
                 MessageBox.Show("Please select a user.");
             }
             else
             {
-                // get the User object choosen by the user:
-                User user = (User)((KeyValuePair<long, User>)usersList.SelectedItem).Value; // user selection is a KeyValuePair
-
-                // find all users that match the search:
-                _userResults = DataFacade.GetUsersByContactAndDate(user.ID, (DateTime)datePicker.Value);
+                if (usersList.SelectedItem != null)
+                {
+                    // get the User object choosen by the user:
+                    User user = (User)((KeyValuePair<long, User>)usersList.SelectedItem).Value; // user selection is a KeyValuePair
+                                                                                                // find all users that match the search:
+                    _userResults = DataFacade.GetUsersByContactAndDate(user.ID, (DateTime)datePicker.Value);
+                }
+                else // default user:
+                {
+                    User user = DataFacade.GetDefaultUser();
+                    _userResults = DataFacade.GetUsersByContactAndDate(user.ID, (DateTime)datePicker.Value);
+                }
                 resultsList.ItemsSource = _userResults; // display
             }
         }
@@ -164,9 +174,9 @@ namespace TrackTrace.Presentation
                     string header = "User, contact number, (optional) name:";
                     file.WriteLine(header);
 
-                    foreach (User u in _userResults)
+                    foreach (KeyValuePair<long,User> u in _userResults)
                     {
-                        file.WriteLine(u.ToString());
+                        file.WriteLine(u.Value.ToString());
                     }
                 }
             }
@@ -181,6 +191,11 @@ namespace TrackTrace.Presentation
         private void lastNameSearchBtn_Checked(object sender, RoutedEventArgs e)
         {
             userInput.Text = "";
+        }
+
+        private void usersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedUserBox.Text= usersList.SelectedItem.ToString();
         }
     }
 }

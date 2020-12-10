@@ -19,7 +19,7 @@ namespace TrackTrace.Presentation
     /// <summary>
     /// Interaction logic for AddLocationWindow.xaml. It diplays a form to add a new location and after input validation adds a new location to the system.
     /// Created by: Klaudia Jaros   
-    /// Last modified: 04/12/2020
+    /// Last modified: 09/12/2020
     /// </summary>
     public partial class AddLocationWindow : Window
     {
